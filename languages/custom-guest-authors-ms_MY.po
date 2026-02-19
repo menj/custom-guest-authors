@@ -1,0 +1,110 @@
+# Malay (Malaysia) translation for Custom Guest Authors
+# Copyright (C) 2026 MENJ
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Custom Guest Authors 1.7.3\n"
+"Report-Msgid-Bugs-To: https://menj.net\n"
+"POT-Creation-Date: 2026-02-19\n"
+"PO-Revision-Date: 2026-02-19\n"
+"Last-Translator: MENJ <menj@menj.net>\n"
+"Language-Team: Malay (Malaysia)\n"
+"Language: ms_MY\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Manual\n"
+"X-Domain: custom-guest-authors\n"
+
+#: custom-guest-authors.php
+msgid "and"
+msgstr "dan"
+
+#: custom-guest-authors.php
+msgid "Custom Guest Authors"
+msgstr "Pengarang Tetamu Tersuai"
+
+#: custom-guest-authors.php
+msgid "Replace WordPress author names with custom guest author names per post. Supports multiple authors."
+msgstr "Gantikan nama pengarang WordPress dengan nama pengarang tetamu tersuai untuk setiap catatan. Menyokong berbilang pengarang."
+
+#: custom-guest-authors.php
+msgid "Guest Authors"
+msgstr "Pengarang Tetamu"
+
+#: custom-guest-authors.php
+msgid "General"
+msgstr "Umum"
+
+#: custom-guest-authors.php
+msgid "Display"
+msgstr "Paparan"
+
+#: custom-guest-authors.php
+msgid "Default Author"
+msgstr "Pengarang Lalai"
+
+#: custom-guest-authors.php
+msgid "Default Guest Author Name"
+msgstr "Nama Pengarang Tetamu Lalai"
+
+#: custom-guest-authors.php
+msgid "e.g. Editorial Team"
+msgstr "cth. Pasukan Editorial"
+
+#: custom-guest-authors.php
+msgid "Shown when a post has no guest-author field and no WordPress author. Leave blank to fall back to the WordPress post author."
+msgstr "Dipaparkan apabila catatan tidak mempunyai medan pengarang tetamu dan tiada pengarang WordPress. Biarkan kosong untuk menggunakan pengarang catatan WordPress sebagai sandaran."
+
+#: custom-guest-authors.php
+msgid "Behaviour"
+msgstr "Tingkah Laku"
+
+#: custom-guest-authors.php
+msgid "Override author on Pages"
+msgstr "Ganti pengarang pada Halaman"
+
+#: custom-guest-authors.php
+msgid "By default the plugin only overrides author names on Posts. Enable this to also apply guest author substitution to Pages."
+msgstr "Secara lalai, pemalam ini hanya menggantikan nama pengarang pada Catatan. Aktifkan ini untuk turut menggantikan pengarang pada Halaman."
+
+#: custom-guest-authors.php
+msgid "Usage"
+msgstr "Penggunaan"
+
+#: custom-guest-authors.php
+msgid "Set guest authors per post using the \"Guest Authors\" panel in the post editor sidebar. Separate multiple names with commas. The custom field key is"
+msgstr "Tetapkan pengarang tetamu untuk setiap catatan menggunakan panel \"Pengarang Tetamu\" di bar sisi editor catatan. Pisahkan berbilang nama dengan koma. Kunci medan tersuai ialah"
+
+#: custom-guest-authors.php
+#: custom-guest-authors.php
+#: custom-guest-authors.php
+#: custom-guest-authors.php
+#: custom-guest-authors.php
+msgid "Preview"
+msgstr "Pratonton"
+
+#: custom-guest-authors.php
+msgid "Example output (3 authors)"
+msgstr "Contoh output (3 pengarang)"
+
+#: custom-guest-authors.php
+msgid "Example output (2 authors)"
+msgstr "Contoh output (2 pengarang)"
+
+#: custom-guest-authors.php
+msgid "Settings saved."
+msgstr "Tetapan disimpan."
+
+#: custom-guest-authors.php
+msgid "Guest Author Name(s)"
+msgstr "Nama Pengarang Tetamu"
+
+#: custom-guest-authors.php
+msgid "e.g. John Doe, Jane Smith"
+msgstr "cth. Ali Hassan, Siti Aminah"
+
+#: custom-guest-authors.php
+msgid "Separate multiple authors with commas. Leave blank to use the post's WordPress author."
+msgstr "Pisahkan berbilang pengarang dengan koma. Biarkan kosong untuk menggunakan pengarang WordPress catatan tersebut."

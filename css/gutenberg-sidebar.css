@@ -1,0 +1,64 @@
+/* ==========================================================================
+   Custom Guest Authors — Gutenberg Sidebar Panel
+   Suite design language: slate variables, clean inputs, no dashicons.
+   ========================================================================== */
+
+:root {
+    --wpcp-primary:       #64748b;
+    --wpcp-primary-hover: #475569;
+    --wpcp-primary-light: #f1f5f9;
+    --wpcp-gray-300:      #d1d5db;
+    --wpcp-gray-400:      #9ca3af;
+    --wpcp-gray-500:      #6b7280;
+    --wpcp-gray-700:      #374151;
+    --wpcp-gray-800:      #1f2937;
+    --wpcp-radius:        8px;
+    --wpcp-transition:    all 0.2s ease;
+}
+
+.cga-panel-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px 16px;
+}
+
+.cga-panel-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--wpcp-gray-500);
+    margin: 0;
+}
+
+.cga-panel-input {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 13px;
+    color: var(--wpcp-gray-800);
+    background: #fff;
+    border: 1px solid var(--wpcp-gray-300);
+    border-radius: var(--wpcp-radius);
+    transition: var(--wpcp-transition);
+    box-sizing: border-box;
+    box-shadow: none;
+    font-family: inherit;
+}
+
+.cga-panel-input:focus {
+    outline: none;
+    border-color: var(--wpcp-primary);
+    box-shadow: 0 0 0 2px var(--wpcp-primary-light);
+}
+
+.cga-panel-input::placeholder {
+    color: var(--wpcp-gray-400);
+}
+
+.cga-panel-hint {
+    margin: 0;
+    font-size: 12px;
+    color: var(--wpcp-gray-500);
+    line-height: 1.5;
+}

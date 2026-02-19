@@ -1,0 +1,68 @@
+/* ==========================================================================
+   Custom Guest Authors — Classic Editor Meta Box
+   Suite design language: slate variables, wpcp- classes, SVG-ready.
+   ========================================================================== */
+
+:root {
+    --wpcp-primary:       #64748b;
+    --wpcp-primary-hover: #475569;
+    --wpcp-primary-light: #f1f5f9;
+    --wpcp-gray-50:       #f9fafb;
+    --wpcp-gray-200:      #e5e7eb;
+    --wpcp-gray-300:      #d1d5db;
+    --wpcp-gray-400:      #9ca3af;
+    --wpcp-gray-500:      #6b7280;
+    --wpcp-gray-700:      #374151;
+    --wpcp-gray-800:      #1f2937;
+    --wpcp-radius:        8px;
+    --wpcp-transition:    all 0.2s ease;
+}
+
+#cga-meta-box .inside {
+    padding: 12px;
+    margin: 0;
+}
+
+.cga-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.cga-field-group label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--wpcp-gray-500);
+}
+
+.cga-field-group input[type="text"] {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 13px;
+    color: var(--wpcp-gray-800);
+    background: #fff;
+    border: 1px solid var(--wpcp-gray-300);
+    border-radius: var(--wpcp-radius);
+    transition: var(--wpcp-transition);
+    box-sizing: border-box;
+    box-shadow: none;
+}
+
+.cga-field-group input[type="text"]:focus {
+    outline: none;
+    border-color: var(--wpcp-primary);
+    box-shadow: 0 0 0 2px var(--wpcp-primary-light);
+}
+
+.cga-field-group input[type="text"]::placeholder {
+    color: var(--wpcp-gray-400);
+}
+
+.cga-field-hint {
+    margin: 0;
+    font-size: 12px;
+    color: var(--wpcp-gray-500);
+    line-height: 1.5;
+}

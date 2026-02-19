@@ -1,0 +1,113 @@
+# Copyright (C) 2026 MENJ
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Custom Guest Authors 1.7.3\n"
+"Report-Msgid-Bugs-To: https://menj.net\n"
+"POT-Creation-Date: 2026-02-19\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Generator: Manual\n"
+"X-Domain: custom-guest-authors\n"
+
+#. Plugin Name of the plugin
+msgid "Custom Guest Authors"
+msgstr ""
+
+#. Description of the plugin
+msgid "Replace the default post author name with custom guest author names using a custom field. Supports multiple authors."
+msgstr ""
+
+#: custom-guest-authors.php
+msgid "and"
+msgstr ""
+
+#: custom-guest-authors.php
+msgid "Guest Authors"
+msgstr ""
+
+#: custom-guest-authors.php
+msgid "Replace WordPress author names with custom guest author names per post. Supports multiple authors."
+msgstr ""
+
+#: custom-guest-authors.php
+msgid "General"
+msgstr ""
+
+#: custom-guest-authors.php
+msgid "Display"
+msgstr ""
+
+#: custom-guest-authors.php
+msgid "Default Author"
+msgstr ""
+
+#: custom-guest-authors.php
+msgid "Default Guest Author Name"
+msgstr ""
+
+#: custom-guest-authors.php
+msgid "e.g. Editorial Team"
+msgstr ""
+
+#: custom-guest-authors.php
+msgid "Shown when a post has no guest-author field and no WordPress author. Leave blank to fall back to the WordPress post author."
+msgstr ""
+
+#: custom-guest-authors.php
+msgid "Behaviour"
+msgstr ""
+
+#: custom-guest-authors.php
+msgid "Override author on Pages"
+msgstr ""
+
+#: custom-guest-authors.php
+msgid "By default the plugin only overrides author names on Posts. Enable this to also apply guest author substitution to Pages."
+msgstr ""
+
+#: custom-guest-authors.php
+msgid "Usage"
+msgstr ""
+
+#: custom-guest-authors.php
+msgid "Set guest authors per post using the \"Guest Authors\" panel in the post editor sidebar. Separate multiple names with commas. The custom field key is"
+msgstr ""
+
+#: custom-guest-authors.php
+#: custom-guest-authors.php
+#: custom-guest-authors.php
+#: custom-guest-authors.php
+#: custom-guest-authors.php
+msgid "Preview"
+msgstr ""
+
+#: custom-guest-authors.php
+msgid "Example output (3 authors)"
+msgstr ""
+
+#: custom-guest-authors.php
+msgid "Example output (2 authors)"
+msgstr ""
+
+#: custom-guest-authors.php
+msgid "Settings saved."
+msgstr ""
+
+#: custom-guest-authors.php
+msgid "Guest Author Name(s)"
+msgstr ""
+
+#: custom-guest-authors.php
+msgid "e.g. John Doe, Jane Smith"
+msgstr ""
+
+#: custom-guest-authors.php
+msgid "Separate multiple authors with commas. Leave blank to use the post's WordPress author."
+msgstr ""
