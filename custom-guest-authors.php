@@ -2,7 +2,7 @@
 /*
 Plugin Name: Custom Guest Authors
 Description: Replace the default post author name with custom guest author names using a custom field. Supports multiple authors.
-Version: 1.8.0
+Version: 1.9.1
 Author: MENJ
 Author URI: https://github.com/menj
 License: GPLv2 or later
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'CGA_VERSION',     '1.8.0' );
+define( 'CGA_VERSION',     '1.9.1' );
 define( 'CGA_PLUGIN_DIR',  plugin_dir_path( __FILE__ ) );
 define( 'CGA_PLUGIN_URL',  plugin_dir_url( __FILE__ ) );
 
@@ -22,24 +22,12 @@ define( 'CGA_PLUGIN_URL',  plugin_dir_url( __FILE__ ) );
 // i18n
 // ---------------------------------------------------------------------------
 
-/**
- * Load the plugin text domain so translations in /languages are applied.
- */
-function cga_load_textdomain() {
-    load_plugin_textdomain(
-        'custom-guest-authors',
-        false,
-        dirname( plugin_basename( __FILE__ ) ) . '/languages/'
-    );
-}
-add_action( 'init', 'cga_load_textdomain' );
-
 // ---------------------------------------------------------------------------
 // Front-end: author name filter
 // ---------------------------------------------------------------------------
 
-add_filter( 'the_author',                 'custom_guest_authors_name' );
-add_filter( 'get_the_author_display_name', 'custom_guest_authors_name' );
+add_filter( 'the_author',     'custom_guest_authors_name' );
+add_filter( 'get_the_author', 'custom_guest_authors_name' );
 
 /**
  * Suppress the author archive URL whenever a guest author is active.
@@ -69,7 +57,18 @@ function custom_guest_authors_suppress_url( $url ) {
         return $url;
     }
 
-    $authors = get_post_meta( $post->ID, 'guest-author', true );
+    $transient_key = 'cga_' . $post->ID;
+    $authors       = get_transient( $transient_key );
+
+    if ( false === $authors ) {
+        $authors = get_post_meta( $post->ID, 'guest-author', true );
+        $ttl     = absint( get_option( 'cga_cache_ttl', 12 ) );
+        if ( $ttl < 1 ) {
+            $ttl = 12;
+        }
+        set_transient( $transient_key, $authors ? $authors : '', $ttl * HOUR_IN_SECONDS );
+    }
+
     if ( $authors ) {
         return '';
     }
@@ -227,7 +226,8 @@ add_action( 'deleted_post_meta', 'custom_guest_authors_invalidate_cache_on_meta_
  * via the REST API. Without this registration the Gutenberg sidebar panel
  * cannot access or persist the value.
  */
-function cga_register_post_meta() {
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- cga_ is the plugin's registered prefix.
+function cga_register_post_meta() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
     register_post_meta( '', 'guest-author', array(
         'show_in_rest'      => true,
         'single'            => true,
@@ -254,7 +254,7 @@ add_action( 'init', 'cga_register_post_meta' );
  *
  * @param string $post_type The post type being edited.
  */
-function cga_add_meta_box( $post_type ) {
+function cga_add_meta_box( $post_type ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
     // Resolve the correct function — wp_use_block_editor_for_post_type()
     // replaced use_block_editor_for_post_type() in WP 6.5.
     $block_editor_check = function_exists( 'wp_use_block_editor_for_post_type' )
@@ -266,11 +266,18 @@ function cga_add_meta_box( $post_type ) {
         return;
     }
 
+    // Respect the enabled post types setting so the meta box only appears
+    // on post types where the override is actually active.
+    $enabled_types = get_option( 'cga_enabled_post_types', array( 'post' ) );
+    if ( ! is_array( $enabled_types ) || empty( $enabled_types ) ) {
+        $enabled_types = array( 'post' );
+    }
+
     add_meta_box(
         'cga-meta-box',
         __( 'Guest Authors', 'custom-guest-authors' ),
         'cga_render_meta_box',
-        array( 'post', 'page' ),
+        $enabled_types,
         'side',
         'default'
     );
@@ -282,7 +289,7 @@ add_action( 'add_meta_boxes', 'cga_add_meta_box' );
  *
  * @param WP_Post $post
  */
-function cga_render_meta_box( $post ) {
+function cga_render_meta_box( $post ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
     $value = get_post_meta( $post->ID, 'guest-author', true );
     wp_nonce_field( 'cga_save_meta', 'cga_nonce' );
     ?>
@@ -309,9 +316,9 @@ function cga_render_meta_box( $post ) {
  *
  * @param int $post_id
  */
-function cga_save_meta_box( $post_id ) {
+function cga_save_meta_box( $post_id ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
     // Verify nonce
-    if ( ! isset( $_POST['cga_nonce'] ) || ! wp_verify_nonce( $_POST['cga_nonce'], 'cga_save_meta' ) ) {
+    if ( ! isset( $_POST['cga_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['cga_nonce'] ?? '' ) ), 'cga_save_meta' ) ) {
         return;
     }
 
@@ -346,7 +353,7 @@ add_action( 'save_post', 'cga_save_meta_box' );
  *
  * @param string $hook The current admin page hook.
  */
-function cga_enqueue_admin_assets( $hook ) {
+function cga_enqueue_admin_assets( $hook ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
     // Only load on post edit screens
     if ( ! in_array( $hook, array( 'post.php', 'post-new.php' ), true ) ) {
         return;
@@ -393,7 +400,7 @@ add_action( 'admin_enqueue_scripts', 'cga_enqueue_admin_assets' );
 /**
  * Enqueue Gutenberg sidebar plugin assets.
  */
-function cga_enqueue_block_editor_assets() {
+function cga_enqueue_block_editor_assets() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
     wp_enqueue_script(
         'cga-gutenberg-sidebar',
         CGA_PLUGIN_URL . 'js/gutenberg-sidebar.js',
@@ -421,7 +428,7 @@ add_action( 'enqueue_block_editor_assets', 'cga_enqueue_block_editor_assets' );
  * @param array $data The schema graph array.
  * @return array Modified schema.
  */
-function cga_suppress_yoast_author( $data ) {
+function cga_suppress_yoast_author( $data ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
     if ( ! get_option( 'cga_suppress_schema', false ) ) {
         return $data;
     }
@@ -443,7 +450,7 @@ add_filter( 'wpseo_schema_graph', 'cga_suppress_yoast_author' );
  * @param array $data The schema entity array.
  * @return array Modified schema.
  */
-function cga_suppress_rankmath_author( $data ) {
+function cga_suppress_rankmath_author( $data ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
     if ( ! get_option( 'cga_suppress_schema', false ) ) {
         return $data;
     }
@@ -459,7 +466,7 @@ add_filter( 'rank_math/schema/article', 'cga_suppress_rankmath_author' );
 /**
  * Register the plugin settings menu item under Settings.
  */
-function cga_add_settings_menu() {
+function cga_add_settings_menu() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
     add_options_page(
         __( 'Custom Guest Authors', 'custom-guest-authors' ),
         __( 'Guest Authors', 'custom-guest-authors' ),
@@ -477,7 +484,7 @@ add_action( 'admin_menu', 'cga_add_settings_menu' );
  * @param string $location The default redirect URL from options.php.
  * @return string Modified redirect URL with the tab parameter restored.
  */
-function cga_settings_redirect( $location ) {
+function cga_settings_redirect( $location ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
     if ( strpos( $location, 'settings-updated' ) === false ) {
         return $location;
     }
@@ -494,13 +501,14 @@ function cga_settings_redirect( $location ) {
     }
     return $location;
 }
-add_filter( 'wp_redirect', 'cga_settings_redirect' );
+add_filter( 'wp_redirect',      'cga_settings_redirect', 10 );
+add_filter( 'wp_safe_redirect', 'cga_settings_redirect', 10 );
 
 /**
  * Register options so they are whitelisted for update_option() via the
  * Settings API. The form posts to options.php.
  */
-function cga_register_settings() {
+function cga_register_settings() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
     // General tab
     register_setting( 'cga_general', 'cga_default_guest_author', array(
         'type'              => 'string',
@@ -532,9 +540,9 @@ function cga_register_settings() {
         'default'           => 12,
     ) );
     register_setting( 'cga_advanced', 'cga_suppress_schema', array(
-        'type'              => 'boolean',
-        'sanitize_callback' => 'rest_sanitize_boolean',
-        'default'           => false,
+        'type'              => 'integer',
+        'sanitize_callback' => 'cga_sanitize_checkbox',
+        'default'           => 0,
     ) );
 }
 
@@ -544,12 +552,27 @@ function cga_register_settings() {
  * @param mixed $input Raw input from the form.
  * @return array Sanitized array of valid post type slugs.
  */
-function cga_sanitize_post_types( $input ) {
+function cga_sanitize_post_types( $input ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
     $valid = array_keys( get_post_types( array( 'public' => true ) ) );
     if ( ! is_array( $input ) ) {
-        return array( 'post' );
+        return array();
     }
+    // Filter out the empty sentinel value added to ensure the key is always POSTed.
+    $input = array_filter( $input, 'strlen' );
     return array_values( array_intersect( array_map( 'sanitize_key', $input ), $valid ) );
+}
+
+/**
+ * Sanitize a checkbox field — returns 1 if the value is truthy, 0 otherwise.
+ * Unlike rest_sanitize_boolean, this works correctly with HTML form submissions
+ * where unchecked checkboxes send nothing (which WordPress treats as missing,
+ * not false). The hidden companion input in the form sends '0' when unchecked.
+ *
+ * @param mixed $input Raw value from the form.
+ * @return int 1 or 0.
+ */
+function cga_sanitize_checkbox( $input ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
+    return ( ! empty( $input ) && '0' !== $input ) ? 1 : 0;
 }
 add_action( 'admin_init', 'cga_register_settings' );
 
@@ -558,7 +581,7 @@ add_action( 'admin_init', 'cga_register_settings' );
  *
  * @param string $hook Current admin page hook.
  */
-function cga_enqueue_settings_assets( $hook ) {
+function cga_enqueue_settings_assets( $hook ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
     if ( 'settings_page_custom-guest-authors' !== $hook ) {
         return;
     }
@@ -568,14 +591,28 @@ function cga_enqueue_settings_assets( $hook ) {
         array(),
         CGA_VERSION
     );
-    // No JS needed — tabs use URL ?tab= param, no client-side switching.
+    wp_enqueue_script(
+        'cga-settings',
+        CGA_PLUGIN_URL . 'js/settings.js',
+        array(),
+        CGA_VERSION,
+        true
+    );
+    wp_localize_script(
+        'cga-settings',
+        'cgaSettings',
+        array(
+            'previewNames' => array( 'Zamri Vinoth', 'Firdaus Wong', 'Ali Hassan' ),
+            'i18nAnd'      => __( 'and', 'custom-guest-authors' ),
+        )
+    );
 }
 add_action( 'admin_enqueue_scripts', 'cga_enqueue_settings_assets' );
 
 /**
  * Render the settings page.
  */
-function cga_render_settings_page() {
+function cga_render_settings_page() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 
     if ( ! current_user_can( 'manage_options' ) ) {
         return;
@@ -724,6 +761,10 @@ function cga_render_settings_page() {
                         <p class="wpcp-help-text" style="margin-bottom:14px;">
                             <?php esc_html_e( 'Select which post types the guest author override applies to. The meta box will appear in the editor for all checked types.', 'custom-guest-authors' ); ?>
                         </p>
+                        <!-- Hidden sentinel: ensures the key is present in POST even when
+                             all checkboxes are unchecked, so the sanitize callback can
+                             return an empty array rather than the default. -->
+                        <input type="hidden" name="cga_enabled_post_types[]" value="" />
                         <div class="wpcp-checkbox-grid">
                             <?php foreach ( $all_post_types as $pt ) : ?>
                                 <label class="wpcp-checkbox-card<?php echo in_array( $pt->name, $enabled_types, true ) ? ' wpcp-checkbox-card--checked' : ''; ?>">
@@ -881,9 +922,9 @@ function cga_render_settings_page() {
                         }
                         ?>
                         <span class="wpcp-preview-label"><?php esc_html_e( '3 authors', 'custom-guest-authors' ); ?></span>
-                        <div class="wpcp-preview-output"><?php echo esc_html( $p3 ); ?></div>
+                        <div class="wpcp-preview-output" id="cga-preview-3"><?php echo esc_html( $p3 ); ?></div>
                         <span class="wpcp-preview-label" style="margin-top:12px;display:block;"><?php esc_html_e( '2 authors', 'custom-guest-authors' ); ?></span>
-                        <div class="wpcp-preview-output"><?php echo esc_html( $p2 ); ?></div>
+                        <div class="wpcp-preview-output" id="cga-preview-2"><?php echo esc_html( $p2 ); ?></div>
                     </div>
                 </div>
 
@@ -936,6 +977,8 @@ function cga_render_settings_page() {
                         </h3>
                     </div>
                     <div class="wpcp-card-body">
+                        <!-- Hidden companion: sends 0 when the checkbox is unchecked. -->
+                        <input type="hidden" name="cga_suppress_schema" value="0" />
                         <label class="wpcp-toggle">
                             <input
                                 type="checkbox"
@@ -965,9 +1008,15 @@ function cga_render_settings_page() {
                     <div class="wpcp-card-body">
                         <?php
                         global $wpdb;
-                        $transient_count = $wpdb->get_var(
-                            "SELECT COUNT(*) FROM {$wpdb->options} WHERE option_name LIKE '_transient_cga_%'"
-                        );
+                        $cache_key       = 'cga_transient_count';
+                        $transient_count = wp_cache_get( $cache_key, 'custom-guest-authors' );
+                        if ( false === $transient_count ) {
+                            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+                            $transient_count = $wpdb->get_var(
+                                "SELECT COUNT(*) FROM {$wpdb->options} WHERE option_name LIKE '_transient_cga_%'"
+                            );
+                            wp_cache_set( $cache_key, $transient_count, 'custom-guest-authors' );
+                        }
                         $active_types_labels = array();
                         foreach ( $enabled_types as $slug ) {
                             if ( isset( $all_post_types[ $slug ] ) ) {

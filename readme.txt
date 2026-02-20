@@ -3,13 +3,13 @@ Contributors: MENJ
 Donate link: https://paypal.me/menj
 Tags: guest, author, post, contributor
 Requires at least: 5.7
-Tested up to: 6.7
-Requires PHP: 7.0
-Stable tag: 1.8.0
+Tested up to: 6.9
+Requires PHP: 8.5
+Stable tag: 1.9.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Replace the default post author name with custom guest author names using a custom field. Supports multiple authors. Inspired by a tutorial from WPBeginner.
+Replace the default WordPress post author with custom guest author names via a custom field. Supports multiple comma-separated authors.
 
 == Description ==
 
@@ -44,6 +44,47 @@ Yes. The field key is `guest-author`. Setting it via the custom fields panel or 
 This was a bug in versions prior to 1.5 where the cached author name would persist for up to 12 hours. Version 1.5 fixed this — the cache is now invalidated immediately whenever a post is saved or its meta is updated.
 
 == Changelog ==
+
+= 1.9.1 =
+* Fixed: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound warnings persisted in Plugin Check despite phpcs.xml declaring cga as an authorised prefix. Plugin Check runs its own internal PHPCS configuration and does not read phpcs.xml — it derives the expected prefix from the plugin slug (custom_guest_authors), which does not match the short cga_ prefix. All 15 cga_* function declarations now carry an inline phpcs:ignore annotation for this specific rule. The phpcs.xml prefix declaration is retained for local PHPCS runs.
+
+= 1.9.0 =
+* Added: phpcs.xml added to declare cga_ and custom_guest_authors_ as authorised prefixes for WordPress.NamingConventions.PrefixAllGlobals. Without this file the rule had no way to recognise the plugin's registered prefix and raised a false-positive warning on every global function declaration. Also pins minimum_wp_version to 5.7 and testVersion to 8.5- to align PHPCS analysis with the plugin's declared requirements.
+* Updated: Requires PHP bumped from 7.0 to 8.5 to reflect the current PHP stable release.
+* Updated: Tested up to confirmed at 6.9 (WordPress 6.9 "Gene", released 2 December 2025).
+
+= 1.8.9 =
+* Fixed: WordPress.DB.DirectDatabaseQuery.DirectQuery warning on the cached transient count query in the Advanced tab debug table. The result of the $wpdb->get_var() SELECT COUNT query is now wrapped with wp_cache_get() / wp_cache_set() using the 'custom-guest-authors' cache group. The query runs at most once per page load; subsequent calls within the same request read from the object cache. A phpcs:ignore inline annotation is retained for the query line itself since there is no WordPress API equivalent for a LIKE-pattern option count.
+
+= 1.8.8 =
+* Fixed: WordPress.Security.ValidatedSanitizedInput.MissingUnslash warning on the nonce check in cga_save_meta_box_data(). $_POST['cga_nonce'] is now passed through wp_unslash() before sanitize_text_field() prior to wp_verify_nonce(), matching the pattern already used for all other $_POST reads in the plugin.
+
+= 1.8.7 =
+* Removed: cga_load_textdomain() and its init hook removed. WordPress automatically loads translations for plugins hosted on WordPress.org as of WP 4.6; an explicit load_plugin_textdomain() call is unnecessary and flagged as a Plugin Check error.
+
+= 1.8.6 =
+* Fixed: custom_guest_authors_suppress_url() was calling get_post_meta() directly on every author link render, bypassing the transient cache used by the name filter. On archive pages with many posts this produced one uncached database query per post per page load. The function now reads from the cga_{post_id} transient first and falls back to get_post_meta() only on a cache miss, then sets the transient using the same cga_cache_ttl option and TTL logic as custom_guest_authors_name().
+
+= 1.8.5 =
+* Fixed: get_the_author_display_name is not a registered WordPress core filter hook and was never fired, meaning the guest author override had no effect in any context that calls get_the_author() programmatically. Replaced with the correct get_the_author hook, which WordPress fires whenever get_the_author() is called without arguments.
+
+= 1.8.4 =
+* Fixed: Active settings tab was not reliably preserved after saving. options.php uses wp_safe_redirect() internally; the existing cga_settings_redirect filter only hooked wp_redirect, so the tab query parameter was silently dropped on hosts where the redirect bypassed that filter. The same callback is now also registered on wp_safe_redirect so both code paths are covered. No change to the function itself.
+
+= 1.8.3 =
+* Fixed: Join style preview on the Display tab was static and only reflected the last saved value. Switching between Natural, Comma, and Ampersand radio cards now updates both preview outputs immediately without requiring a page save. Preview text is computed client-side from author names and the translated "and" string passed from PHP via wp_localize_script.
+* Improved: js/settings.js updated with buildPreview() and updatePreview() functions. The delegated change listener now additionally triggers a preview refresh when the cga_join_style radio group changes.
+* Improved: Preview output divs in the Display tab now carry id="cga-preview-3" and id="cga-preview-2" for reliable JS targeting.
+* Improved: wp_localize_script() added to cga_enqueue_settings_assets() passing cgaSettings.previewNames and cgaSettings.i18nAnd so preview names and the conjunction are translation-aware.
+
+= 1.8.2 =
+* Fixed: Radio cards and checkbox cards on the settings page showed no visual feedback when clicked. The .selected and .wpcp-checkbox-card--checked CSS classes were only applied server-side at page load and did not update on interaction. A new js/settings.js file adds a delegated change listener that keeps card visual state in sync with the underlying input state at all times.
+* New: js/settings.js added to /js/ directory and enqueued via wp_enqueue_script() in cga_enqueue_settings_assets(), loaded in the footer with no dependencies.
+
+= 1.8.1 =
+* Fixed: Classic editor meta box was still hardcoded to appear only on post and page post types, ignoring the Active Post Types setting entirely. It now reads cga_enabled_post_types and registers the meta box only for the selected types.
+* Fixed: cga_suppress_schema toggle was not saving correctly. WordPress HTML form submissions send nothing for unchecked checkboxes, so the option could never be saved as false. A hidden companion input now sends 0 when unchecked, and the sanitize callback was changed from rest_sanitize_boolean to a dedicated cga_sanitize_checkbox() function that handles both 0 and 1 correctly.
+* Fixed: cga_enabled_post_types checkboxes could not be saved as an empty array — the sanitize callback was returning array('post') as a fallback when nothing was submitted. A hidden sentinel input now ensures the POST key is always present, and the sanitizer filters out the empty sentinel value so all-unchecked correctly saves as an empty array.
 
 = 1.8.0 =
 * New: General tab — Post type selection. A checkbox grid of all public post types replaces the single "Override on Pages" toggle. The cga_override_on_pages option is superseded by cga_enabled_post_types (array). Posts enabled by default; all other types opt-in.

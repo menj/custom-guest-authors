@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<ruleset name="Custom Guest Authors">
+
+    <description>PHPCS configuration for Custom Guest Authors.</description>
+
+    <!-- Scan only the main plugin file and any future PHP files -->
+    <file>custom-guest-authors.php</file>
+
+    <!-- Enforce WordPress Coding Standards -->
+    <rule ref="WordPress"/>
+
+    <!--
+        Declare the authorised prefix for this plugin.
+        PrefixAllGlobals uses this list to decide whether a global function,
+        class, constant, or variable name is acceptably namespaced.
+        Without this declaration every cga_* function triggers a false positive.
+    -->
+    <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+        <properties>
+            <property name="prefixes" type="array">
+                <element value="cga"/>
+                <element value="custom_guest_authors"/>
+            </property>
+        </properties>
+    </rule>
+
+    <!-- Minimum supported WordPress version (aligns with Requires at least in readme.txt) -->
+    <config name="minimum_wp_version" value="5.7"/>
+
+    <!-- Minimum supported PHP version (aligns with Requires PHP in readme.txt) -->
+    <config name="testVersion" value="8.5-"/>
+
+</ruleset>
