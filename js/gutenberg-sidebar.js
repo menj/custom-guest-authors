@@ -35,14 +35,15 @@
             return select( 'core/editor' ).getCurrentPostType();
         } );
 
-        // useEntityProp throws if postType is not yet resolved (undefined on
-        // the initial render pass before the store is hydrated). Return null
-        // to render nothing until the store is ready.
-        var _useEntityProp   = useEntityProp( 'postType', postType || 'post', 'meta' );
+        // useEntityProp must be called unconditionally (React hooks rule), but we
+        // pass an empty string when postType is not yet resolved so the hook reads
+        // a stable no-op entity rather than the wrong type. The null guard below
+        // ensures nothing is rendered until the real postType is available.
+        var _useEntityProp   = useEntityProp( 'postType', postType || '', 'meta' );
         var meta             = _useEntityProp[ 0 ];
         var setMeta          = _useEntityProp[ 1 ];
 
-        // postType not yet resolved — render nothing to avoid flicker or errors
+        // postType not yet resolved — render nothing to avoid flicker or errors.
         if ( ! postType ) {
             return null;
         }

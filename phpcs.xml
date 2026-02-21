@@ -28,6 +28,6 @@
     <config name="minimum_wp_version" value="5.7"/>
 
     <!-- Minimum supported PHP version (aligns with Requires PHP in readme.txt) -->
-    <config name="testVersion" value="8.5-"/>
+    <config name="testVersion" value="8.2-"/>
 
 </ruleset>

@@ -1,20 +1,33 @@
 /* ==========================================================================
    Custom Guest Authors — Settings Page
-   Rich modernist design: elevated cards, gradient header, icon badges,
-   accent borders, pronounced shadows, visual hierarchy.
+   Colour palette: #1B3C53 (deep navy) · #2E6A8E (teal-blue) ·
+                   #4F7FA0 (steel blue) · #C8BAB0 (warm stone)
    ========================================================================== */
 
-/* CSS Custom Properties
-   ========================================================================== */
+/* ── Custom properties ──────────────────────────────────────────────────── */
 :root {
-    --wpcp-primary:        #64748b;
-    --wpcp-primary-hover:  #475569;
-    --wpcp-primary-dark:   #334155;
-    --wpcp-primary-light:  #f1f5f9;
-    --wpcp-primary-mid:    #e2e8f0;
-    --wpcp-success:        #0891b2;
-    --wpcp-success-light:  #ecfeff;
-    --wpcp-success-border: #a5f3fc;
+    --wpcp-primary:        #1B3C53;
+    --wpcp-primary-hover:  #16303f;
+    --wpcp-primary-dark:   #102330;
+    --wpcp-primary-light:  #e8f0f5;
+    --wpcp-primary-mid:    #ccdde8;
+
+    --wpcp-secondary:      #2E6A8E;
+    --wpcp-secondary-dark: #245978;
+    --wpcp-secondary-light:#daeaf4;
+
+    --wpcp-accent:         #4F7FA0;
+    --wpcp-accent-light:   #e2eef5;
+
+    --wpcp-stone:          #C8BAB0;
+    --wpcp-stone-light:    #f5f1ef;
+    --wpcp-stone-mid:      #e0d8d3;
+    --wpcp-stone-dark:     #a89d95;
+
+    --wpcp-success:        #2E6A8E;
+    --wpcp-success-light:  #daeaf4;
+    --wpcp-success-border: #a8cfe0;
+
     --wpcp-gray-50:        #f8fafc;
     --wpcp-gray-100:       #f1f5f9;
     --wpcp-gray-200:       #e2e8f0;
@@ -24,49 +37,52 @@
     --wpcp-gray-600:       #475569;
     --wpcp-gray-700:       #334155;
     --wpcp-gray-800:       #1e293b;
-    --wpcp-gray-900:       #0f172a;
     --wpcp-white:          #ffffff;
+
     --wpcp-radius-sm:      6px;
     --wpcp-radius:         10px;
     --wpcp-radius-lg:      14px;
-    --wpcp-shadow-sm:      0 1px 2px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.10);
-    --wpcp-shadow:         0 4px 6px -1px rgba(0,0,0,.08), 0 2px 4px -1px rgba(0,0,0,.05);
-    --wpcp-shadow-md:      0 10px 15px -3px rgba(0,0,0,.08), 0 4px 6px -2px rgba(0,0,0,.04);
-    --wpcp-shadow-focus:   0 0 0 3px rgba(100,116,139,.20);
+    --wpcp-shadow-sm:      0 1px 2px rgba(27,60,83,.07), 0 1px 3px rgba(27,60,83,.10);
+    --wpcp-shadow:         0 4px 6px -1px rgba(27,60,83,.10), 0 2px 4px -1px rgba(27,60,83,.06);
+    --wpcp-shadow-md:      0 10px 15px -3px rgba(27,60,83,.10), 0 4px 6px -2px rgba(27,60,83,.06);
+    --wpcp-shadow-focus:   0 0 0 3px rgba(46,106,142,.25);
     --wpcp-transition:     all 0.18s ease;
 }
 
-/* Page wrap
-   ========================================================================== */
+/* ── Page wrap ──────────────────────────────────────────────────────────── */
 .cga-wrap {
     max-width: 860px;
     margin-top: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, sans-serif;
 }
 
-/* Page header — gradient background, strong title, version badge
-   ========================================================================== */
+/* ── Page header ────────────────────────────────────────────────────────── */
 .wpcp-page-header {
-    background: linear-gradient(135deg, var(--wpcp-gray-50) 0%, var(--wpcp-primary-light) 100%);
-    border: 1px solid var(--wpcp-gray-200);
+    background: linear-gradient(135deg, var(--wpcp-primary) 0%, var(--wpcp-secondary) 100%);
     border-radius: var(--wpcp-radius-lg);
-    padding: 28px 32px;
-    margin-bottom: 28px;
-    box-shadow: var(--wpcp-shadow-sm);
+    padding: 28px 32px 24px;
+    margin-bottom: 0;
+    box-shadow: var(--wpcp-shadow-md);
     position: relative;
     overflow: hidden;
 }
 
-/* Subtle decorative arc in top-right */
 .wpcp-page-header::after {
     content: '';
     position: absolute;
-    top: -40px;
-    right: -40px;
-    width: 160px;
-    height: 160px;
+    top: -48px; right: -48px;
+    width: 200px; height: 200px;
     border-radius: 50%;
-    background: rgba(100,116,139,.07);
+    background: rgba(255,255,255,.06);
+    pointer-events: none;
+}
+.wpcp-page-header::before {
+    content: '';
+    position: absolute;
+    bottom: -30px; left: 42%;
+    width: 130px; height: 130px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.04);
     pointer-events: none;
 }
 
@@ -84,42 +100,50 @@
     margin: 0;
     font-size: 28px;
     font-weight: 700;
-    color: var(--wpcp-gray-900);
+    color: #ffffff;
     letter-spacing: -0.03em;
     line-height: 1.1;
 }
 
 .wpcp-page-title svg {
-    color: var(--wpcp-primary);
+    color: rgba(255,255,255,.85);
     flex-shrink: 0;
-    filter: drop-shadow(0 1px 2px rgba(0,0,0,.15));
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,.20));
 }
 
 .wpcp-version-badge {
     display: inline-flex;
     align-items: center;
     padding: 4px 12px;
-    background: var(--wpcp-white);
-    color: var(--wpcp-primary);
+    background: rgba(255,255,255,.15);
+    color: rgba(255,255,255,.92);
     font-size: 12px;
     font-weight: 700;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     border-radius: 20px;
-    border: 1px solid var(--wpcp-gray-200);
-    box-shadow: var(--wpcp-shadow-sm);
+    border: 1px solid rgba(255,255,255,.25);
+    backdrop-filter: blur(4px);
 }
 
 .wpcp-page-description {
     margin: 0;
-    color: var(--wpcp-gray-500);
+    color: rgba(255,255,255,.72);
     font-size: 14px;
     line-height: 1.6;
     max-width: 580px;
 }
 
-/* Success notice
-   ========================================================================== */
+/* Stone accent divider below header */
+.wpcp-header-stone-bar {
+    height: 4px;
+    background: linear-gradient(to right, var(--wpcp-stone), var(--wpcp-stone-mid), transparent);
+    border-radius: 0 0 4px 4px;
+    margin-bottom: 24px;
+    opacity: 0.85;
+}
+
+/* ── Success notice ─────────────────────────────────────────────────────── */
 .cga-notice {
     display: flex;
     align-items: center;
@@ -128,69 +152,91 @@
     border-radius: var(--wpcp-radius-sm);
     font-size: 14px;
     font-weight: 500;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     box-shadow: var(--wpcp-shadow-sm);
 }
 
 .cga-notice-success {
     background: var(--wpcp-success-light);
-    color: var(--wpcp-success);
+    color: var(--wpcp-primary);
     border: 1px solid var(--wpcp-success-border);
-    border-left: 4px solid var(--wpcp-success);
+    border-left: 4px solid var(--wpcp-secondary);
 }
 
 .cga-notice svg {
     flex-shrink: 0;
+    color: var(--wpcp-secondary);
 }
 
-/* Tab navigation — underline style with icon + label
-   ========================================================================== */
+/* ── Tab navigation — filled pill style ─────────────────────────────────── */
 .wpcp-tabs {
     display: flex;
-    gap: 0;
-    border-bottom: 2px solid var(--wpcp-gray-200);
+    gap: 6px;
+    align-items: center;
+    padding: 6px;
+    background: var(--wpcp-gray-100);
+    border: 1px solid var(--wpcp-gray-200);
+    border-radius: var(--wpcp-radius);
     margin-bottom: 24px;
 }
 
 .wpcp-tab {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 11px 20px;
+    gap: 7px;
+    padding: 9px 16px;
     font-size: 13px;
     font-weight: 600;
-    color: var(--wpcp-gray-400);
+    color: var(--wpcp-gray-500);
     text-decoration: none;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -2px;
+    border-radius: var(--wpcp-radius-sm);
     transition: var(--wpcp-transition);
     letter-spacing: 0.01em;
-    position: relative;
+    border: 1px solid transparent;
+    white-space: nowrap;
 }
 
 .wpcp-tab:hover {
-    color: var(--wpcp-gray-700);
+    color: var(--wpcp-primary);
+    background: var(--wpcp-white);
     text-decoration: none;
+    border-color: var(--wpcp-gray-200);
 }
 
 .wpcp-tab.wpcp-tab-active {
-    color: var(--wpcp-gray-900);
-    border-bottom-color: var(--wpcp-primary);
+    background: var(--wpcp-primary);
+    color: var(--wpcp-white);
+    border-color: var(--wpcp-primary-hover);
+    box-shadow: var(--wpcp-shadow-sm);
     font-weight: 700;
 }
 
 .wpcp-tab.wpcp-tab-active svg {
+    color: rgba(255,255,255,.85);
+}
+
+.wpcp-tab.wpcp-tab-active:hover {
+    background: var(--wpcp-secondary);
+    color: var(--wpcp-white);
+    border-color: var(--wpcp-primary);
+    text-decoration: none;
+}
+
+/* Debug tab — stone tint when inactive */
+.wpcp-tab-debug:not(.wpcp-tab-active) {
+    color: var(--wpcp-stone-dark);
+}
+.wpcp-tab-debug:not(.wpcp-tab-active):hover {
     color: var(--wpcp-primary);
+    background: var(--wpcp-stone-light);
+    border-color: var(--wpcp-stone-mid);
+}
+.wpcp-tab-debug.wpcp-tab-active {
+    background: var(--wpcp-primary-dark);
+    border-color: var(--wpcp-primary);
 }
 
-.wpcp-tab svg {
-    color: inherit;
-    flex-shrink: 0;
-    transition: var(--wpcp-transition);
-}
-
-/* Cards — elevated with shadow, distinct header strip
-   ========================================================================== */
+/* ── Cards ──────────────────────────────────────────────────────────────── */
 .wpcp-card {
     background: var(--wpcp-white);
     border: 1px solid var(--wpcp-gray-200);
@@ -205,37 +251,56 @@
     box-shadow: var(--wpcp-shadow-md);
 }
 
+/* Vivid navy-to-teal gradient card headers */
 .wpcp-card-header {
-    padding: 16px 22px;
-    background: linear-gradient(to right, var(--wpcp-gray-50), var(--wpcp-white));
-    border-bottom: 1px solid var(--wpcp-gray-200);
+    padding: 14px 20px;
+    background: linear-gradient(to right, var(--wpcp-primary) 0%, var(--wpcp-secondary) 100%);
+    border-bottom: none;
     display: flex;
     align-items: center;
-    gap: 0;
+    justify-content: space-between;
 }
 
 .wpcp-card-header h3 {
     margin: 0;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 700;
-    color: var(--wpcp-gray-800);
+    color: var(--wpcp-white);
     display: flex;
     align-items: center;
     gap: 10px;
-    letter-spacing: 0.01em;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
 }
 
-/* Icon badge in card header */
-.wpcp-card-header h3 .wpcp-icon-badge {
+.wpcp-card-header h3 svg {
+    color: rgba(255,255,255,.80);
+    flex-shrink: 0;
+}
+
+/* Darker variant for Debug tab cards */
+.wpcp-card-header--dark {
+    background: linear-gradient(to right, var(--wpcp-primary-dark) 0%, var(--wpcp-primary) 100%);
+}
+
+/* Icon badge inside coloured header */
+.wpcp-icon-badge {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 30px;
-    height: 30px;
-    background: var(--wpcp-primary-light);
-    border: 1px solid var(--wpcp-primary-mid);
+    width: 28px;
+    height: 28px;
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.25);
     border-radius: var(--wpcp-radius-sm);
-    color: var(--wpcp-primary);
+    color: rgba(255,255,255,.90);
+    flex-shrink: 0;
+}
+
+.wpcp-card-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     flex-shrink: 0;
 }
 
@@ -243,15 +308,9 @@
     padding: 22px;
 }
 
-/* Field rows
-   ========================================================================== */
-.wpcp-field-row {
-    margin-bottom: 20px;
-}
-
-.wpcp-field-row:last-child {
-    margin-bottom: 0;
-}
+/* ── Field rows ─────────────────────────────────────────────────────────── */
+.wpcp-field-row { margin-bottom: 20px; }
+.wpcp-field-row:last-child { margin-bottom: 0; }
 
 .wpcp-field-label {
     display: block;
@@ -259,7 +318,7 @@
     font-weight: 700;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: var(--wpcp-gray-600);
+    color: var(--wpcp-primary);
     margin-bottom: 8px;
 }
 
@@ -278,16 +337,16 @@
     font-family: inherit;
 }
 
+.wpcp-input-sm { max-width: 100px; }
+
 .wpcp-field-input:focus {
     outline: none;
     background: var(--wpcp-white);
-    border-color: var(--wpcp-primary);
+    border-color: var(--wpcp-secondary);
     box-shadow: var(--wpcp-shadow-focus);
 }
 
-.wpcp-field-input::placeholder {
-    color: var(--wpcp-gray-300);
-}
+.wpcp-field-input::placeholder { color: var(--wpcp-gray-300); }
 
 .wpcp-help-text {
     margin: 7px 0 0;
@@ -296,8 +355,18 @@
     line-height: 1.6;
 }
 
-/* Toggle switch
-   ========================================================================== */
+.wpcp-input-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.wpcp-input-row-label {
+    font-size: 13px;
+    color: var(--wpcp-gray-500);
+}
+
+/* ── Toggle switches ────────────────────────────────────────────────────── */
 .wpcp-toggle {
     display: flex;
     align-items: flex-start;
@@ -306,53 +375,35 @@
     padding: 4px 0;
 }
 
-.wpcp-toggle input {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
 .wpcp-toggle-slider {
     position: relative;
-    width: 46px;
-    height: 26px;
+    width: 44px;
+    height: 24px;
     background: var(--wpcp-gray-300);
-    border-radius: 13px;
+    border-radius: 12px;
     flex-shrink: 0;
+    transition: var(--wpcp-transition);
     margin-top: 1px;
-    transition: background 0.18s ease;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,.12);
 }
 
 .wpcp-toggle-slider::after {
     content: '';
     position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 20px;
-    height: 20px;
+    left: 3px; top: 3px;
+    width: 18px; height: 18px;
     background: var(--wpcp-white);
     border-radius: 50%;
-    transition: transform 0.18s ease;
-    box-shadow: 0 1px 4px rgba(0,0,0,.25);
+    box-shadow: 0 1px 3px rgba(0,0,0,.25);
+    transition: var(--wpcp-transition);
 }
 
-.wpcp-toggle input:checked + .wpcp-toggle-slider {
-    background: var(--wpcp-primary);
-}
+.wpcp-toggle input { position: absolute; opacity: 0; width: 0; height: 0; }
 
-.wpcp-toggle input:checked + .wpcp-toggle-slider::after {
-    transform: translateX(20px);
-}
+.wpcp-toggle input:checked + .wpcp-toggle-slider { background: var(--wpcp-secondary); }
+.wpcp-toggle input:checked + .wpcp-toggle-slider::after { transform: translateX(20px); }
+.wpcp-toggle input:focus + .wpcp-toggle-slider { box-shadow: var(--wpcp-shadow-focus); }
 
-.wpcp-toggle input:focus + .wpcp-toggle-slider {
-    box-shadow: var(--wpcp-shadow-focus);
-}
-
-.wpcp-toggle-text {
-    flex: 1;
-}
+.wpcp-toggle-text { flex: 1; }
 
 .wpcp-toggle-label {
     display: block;
@@ -370,64 +421,59 @@
     line-height: 1.6;
 }
 
-/* Info box — left accent border
-   ========================================================================== */
+/* ── Info box ───────────────────────────────────────────────────────────── */
 .wpcp-info-box {
-    background: var(--wpcp-gray-50);
-    border: 1px solid var(--wpcp-gray-200);
-    border-left: 4px solid var(--wpcp-primary);
+    background: var(--wpcp-primary-light);
+    border: 1px solid var(--wpcp-primary-mid);
+    border-left: 4px solid var(--wpcp-secondary);
     border-radius: var(--wpcp-radius-sm);
     padding: 14px 18px;
     font-size: 13px;
-    color: var(--wpcp-gray-600);
+    color: var(--wpcp-primary);
     line-height: 1.7;
 }
 
 .wpcp-info-box code {
     background: var(--wpcp-primary-mid);
-    color: var(--wpcp-gray-700);
+    color: var(--wpcp-primary-dark);
     padding: 2px 6px;
     border-radius: 4px;
     font-size: 12px;
     font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 }
 
-/* Preview output
-   ========================================================================== */
+/* ── Preview output ─────────────────────────────────────────────────────── */
 .wpcp-preview-label {
     display: block;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.07em;
     text-transform: uppercase;
-    color: var(--wpcp-gray-400);
+    color: var(--wpcp-accent);
     margin-bottom: 7px;
 }
 
 .wpcp-preview-output {
     font-size: 15px;
     font-weight: 500;
-    color: var(--wpcp-gray-800);
+    color: var(--wpcp-primary);
     padding: 13px 18px;
-    background: var(--wpcp-gray-50);
-    border: 1px solid var(--wpcp-gray-200);
-    border-left: 4px solid var(--wpcp-gray-300);
+    background: var(--wpcp-primary-light);
+    border: 1px solid var(--wpcp-primary-mid);
+    border-left: 4px solid var(--wpcp-secondary);
     border-radius: var(--wpcp-radius-sm);
     letter-spacing: 0.01em;
 }
 
-/* Submit button — solid slate with hover lift
-   ========================================================================== */
-.wpcp-submit-row {
-    margin-top: 8px;
-}
+/* ── Submit button ──────────────────────────────────────────────────────── */
+.wpcp-submit-row { margin-top: 8px; }
 
 .wpcp-submit-row .button-primary {
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    background: var(--wpcp-gray-700);
-    border-color: var(--wpcp-gray-800);
+    background: var(--wpcp-primary);
+    border-color: var(--wpcp-primary-dark);
     color: var(--wpcp-white);
     font-size: 13px;
     font-weight: 700;
@@ -436,27 +482,26 @@
     height: auto;
     line-height: 1.4;
     border-radius: var(--wpcp-radius-sm);
-    box-shadow: 0 2px 4px rgba(0,0,0,.18), 0 1px 2px rgba(0,0,0,.12);
+    box-shadow: 0 2px 4px rgba(27,60,83,.25);
     transition: var(--wpcp-transition);
     text-shadow: none;
 }
 
 .wpcp-submit-row .button-primary:hover,
 .wpcp-submit-row .button-primary:focus {
-    background: var(--wpcp-gray-900);
-    border-color: var(--wpcp-gray-900);
-    box-shadow: 0 4px 8px rgba(0,0,0,.22), 0 2px 4px rgba(0,0,0,.14);
+    background: var(--wpcp-secondary);
+    border-color: var(--wpcp-primary);
+    box-shadow: 0 4px 8px rgba(27,60,83,.28);
     transform: translateY(-1px);
     color: var(--wpcp-white);
 }
 
 .wpcp-submit-row .button-primary:active {
     transform: translateY(0);
-    box-shadow: 0 1px 2px rgba(0,0,0,.18);
+    box-shadow: 0 1px 2px rgba(27,60,83,.20);
 }
 
-/* Checkbox grid (post types)
-   ========================================================================== */
+/* ── Checkbox grid ──────────────────────────────────────────────────────── */
 .wpcp-checkbox-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -476,25 +521,19 @@
 }
 
 .wpcp-checkbox-card:hover {
-    background: #fff;
-    border-color: var(--wpcp-gray-300);
+    background: var(--wpcp-primary-light);
+    border-color: var(--wpcp-primary-mid);
 }
 
 .wpcp-checkbox-card--checked {
     background: var(--wpcp-primary-light);
-    border-color: var(--wpcp-primary);
+    border-color: var(--wpcp-secondary);
 }
 
-.wpcp-checkbox-card input {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
+.wpcp-checkbox-card input { position: absolute; opacity: 0; width: 0; height: 0; }
 
 .wpcp-checkbox-indicator {
-    width: 18px;
-    height: 18px;
+    width: 18px; height: 18px;
     border: 2px solid var(--wpcp-gray-300);
     border-radius: 4px;
     transition: var(--wpcp-transition);
@@ -502,20 +541,16 @@
     position: relative;
 }
 
-.wpcp-checkbox-card--checked .wpcp-checkbox-indicator,
-.wpcp-checkbox-card input:checked + .wpcp-checkbox-indicator {
-    background: var(--wpcp-primary);
-    border-color: var(--wpcp-primary);
+.wpcp-checkbox-card--checked .wpcp-checkbox-indicator {
+    background: var(--wpcp-secondary);
+    border-color: var(--wpcp-secondary);
 }
 
-.wpcp-checkbox-card--checked .wpcp-checkbox-indicator::after,
-.wpcp-checkbox-card input:checked + .wpcp-checkbox-indicator::after {
+.wpcp-checkbox-card--checked .wpcp-checkbox-indicator::after {
     content: '';
     position: absolute;
-    left: 4px;
-    top: 1px;
-    width: 4px;
-    height: 8px;
+    left: 4px; top: 1px;
+    width: 4px; height: 8px;
     border: solid #fff;
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
@@ -524,16 +559,11 @@
 .wpcp-checkbox-text {
     font-size: 13px;
     font-weight: 500;
-    color: var(--wpcp-gray-700);
+    color: var(--wpcp-primary);
 }
 
-/* Radio cards (join style, apply_on)
-   ========================================================================== */
-.wpcp-radio-group {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
+/* ── Radio cards ────────────────────────────────────────────────────────── */
+.wpcp-radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
 
 .wpcp-radio-card {
     flex: 1;
@@ -549,62 +579,51 @@
     transition: var(--wpcp-transition);
 }
 
-.wpcp-radio-card input {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
+.wpcp-radio-card input { position: absolute; opacity: 0; width: 0; height: 0; }
 
 .wpcp-radio-card:hover {
-    border-color: var(--wpcp-gray-300);
-    background: #fff;
+    border-color: var(--wpcp-primary-mid);
+    background: var(--wpcp-primary-light);
 }
 
 .wpcp-radio-card.selected {
     background: var(--wpcp-primary-light);
-    border-color: var(--wpcp-primary);
+    border-color: var(--wpcp-secondary);
 }
 
 .wpcp-radio-icon {
-    width: 36px;
-    height: 36px;
+    width: 36px; height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #fff;
+    background: var(--wpcp-white);
     border: 1px solid var(--wpcp-gray-200);
     border-radius: var(--wpcp-radius);
-    color: var(--wpcp-gray-500);
+    color: var(--wpcp-accent);
     flex-shrink: 0;
 }
 
 .wpcp-radio-card.selected .wpcp-radio-icon {
-    background: var(--wpcp-primary);
+    background: var(--wpcp-secondary);
     border-color: var(--wpcp-primary);
-    color: #fff;
+    color: var(--wpcp-white);
 }
 
-.wpcp-radio-text {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-}
+.wpcp-radio-text { display: flex; flex-direction: column; gap: 3px; }
 
 .wpcp-radio-text strong {
     font-size: 13px;
     font-weight: 600;
-    color: var(--wpcp-gray-800);
+    color: var(--wpcp-primary);
 }
 
 .wpcp-radio-example {
     font-size: 12px;
-    color: var(--wpcp-gray-500);
+    color: var(--wpcp-accent);
     font-style: italic;
 }
 
-/* Debug table
-   ========================================================================== */
+/* ── Debug table ────────────────────────────────────────────────────────── */
 .wpcp-debug-table {
     width: 100%;
     border-collapse: collapse;
@@ -613,26 +632,162 @@
 
 .wpcp-debug-table th,
 .wpcp-debug-table td {
-    padding: 9px 12px;
+    padding: 11px 14px;
     text-align: left;
-    border-bottom: 1px solid var(--wpcp-gray-100);
+    border-bottom: 1px solid var(--wpcp-primary-light);
+    vertical-align: middle;
 }
 
 .wpcp-debug-table th {
     width: 220px;
     font-weight: 600;
-    color: var(--wpcp-gray-600);
+    color: var(--wpcp-primary);
+    background: var(--wpcp-gray-50);
 }
 
 .wpcp-debug-table td code {
-    background: var(--wpcp-gray-100);
-    padding: 2px 7px;
+    background: var(--wpcp-primary-light);
+    padding: 3px 8px;
     border-radius: 4px;
     font-size: 12px;
-    color: var(--wpcp-gray-700);
+    color: var(--wpcp-primary-dark);
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 }
 
 .wpcp-debug-table tr:last-child th,
-.wpcp-debug-table tr:last-child td {
-    border-bottom: none;
+.wpcp-debug-table tr:last-child td { border-bottom: none; }
+
+/* ── Status pills ───────────────────────────────────────────────────────── */
+.wpcp-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 11px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.wpcp-status-pill--ok {
+    background: var(--wpcp-secondary-light);
+    color: var(--wpcp-primary);
+    border: 1px solid var(--wpcp-success-border);
+}
+
+.wpcp-status-pill--warn {
+    background: var(--wpcp-stone-light);
+    color: var(--wpcp-stone-dark);
+    border: 1px solid var(--wpcp-stone);
+}
+
+/* ── Action buttons (e.g. Clear Cache) ─────────────────────────────────── */
+.wpcp-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 13px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    border-radius: var(--wpcp-radius-sm);
+    border: 1px solid rgba(255,255,255,.30);
+    cursor: pointer;
+    text-decoration: none;
+    transition: var(--wpcp-transition);
+    line-height: 1.4;
+    background: rgba(255,255,255,.15);
+    color: rgba(255,255,255,.90);
+    font-family: inherit;
+}
+
+.wpcp-action-btn:hover {
+    background: rgba(255,255,255,.25);
+    border-color: rgba(255,255,255,.50);
+    color: var(--wpcp-white);
+    text-decoration: none;
+}
+
+/* Stone rule separator */
+.wpcp-stone-rule {
+    height: 1px;
+    background: linear-gradient(to right, var(--wpcp-stone-mid), transparent);
+    margin: 4px 0 16px;
+    border: none;
+}
+
+/* ── Live diagnostics (debug tab) ─────────────────────────────────────────── */
+
+.cga-debug-results {
+    margin: 0 0 24px;
+}
+
+.cga-debug-intro {
+    color: var(--wpcp-stone-mid);
+    font-size: 13px;
+    margin: 0 0 12px;
+}
+
+.cga-debug-table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 13px;
+}
+
+.cga-debug-table th,
+.cga-debug-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--wpcp-stone-light);
+    vertical-align: top;
+    text-align: left;
+}
+
+.cga-debug-table th {
+    width: 36%;
+    font-weight: 500;
+    color: var(--wpcp-slate-dark);
+}
+
+.cga-debug-table tr.cga-fail {
+    background: #fff8f8;
+}
+
+.cga-debug-table tr.cga-pass {
+    background: #f8fff8;
+}
+
+.cga-debug-table tr.cga-info {
+    background: #f8fbff;
+}
+
+.cga-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.cga-badge-cga-pass  { background: #d4f5d4; color: #1a6b1a; }
+.cga-badge-cga-fail  { background: #fde8e8; color: #9b1c1c; }
+.cga-badge-cga-info  { background: #dbeafe; color: #1e40af; }
+
+.cga-manual-result {
+    background: var(--wpcp-stone-light);
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 13px;
+}
+
+.cga-manual-result ul {
+    margin: 6px 0 0 16px;
+    list-style: disc;
+}
+
+.cga-manual-result li {
+    margin: 4px 0;
 }
