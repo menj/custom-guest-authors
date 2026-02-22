@@ -1,11 +1,11 @@
 === Custom Guest Authors ===
 Contributors: MENJ
 Donate link: https://paypal.me/menj
-Tags: guest, author, post, contributor
+Tags: guest author, multiple authors, author override, byline, custom fields
 Requires at least: 5.7
 Tested up to: 6.9
 Requires PHP: 8.2
-Stable tag: 2.0.8
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,9 +13,9 @@ Replace the default WordPress post author with custom guest author names via a c
 
 == Description ==
 
-The Custom Guest Authors plugin allows setting custom guest author names or multiple guest author names for posts using a custom field named `guest-author`. For multiple authors, separate the names with commas. Ideal for blog owners with multiple guest contributors who don't want separate WordPress user accounts for each.
+The Custom Guest Authors plugin (developed and maintained by [Mohd Elfie Nieshaem Juferi](https://ms.wikipedia.org/wiki/Mohd_Elfie_Nieshaem_Juferi)) allows you to set custom guest author names or multiple guest authors for posts using a custom field key named `guest-author`. For multiple authors, separate the names with commas. Ideal for sites with multiple contributors where separate WordPress user accounts are unnecessary.
 
-From version 1.6, guest authors can be set directly from the post editor — no need to use the raw custom fields panel. A dedicated sidebar panel is available in both the classic editor and the block editor (Gutenberg).
+From version 1.6 onward, guest authors can be set directly from the post editor — no need to use the raw custom fields panel. A dedicated sidebar panel is available in both the classic editor and the block editor (Gutenberg).
 
 This plugin was inspired by a tutorial from [WPBeginner](https://www.wpbeginner.com/wp-tutorials/how-to-rewrite-guest-author-name-with-custom-fields-in-wordpress/).
 
@@ -43,7 +43,35 @@ Yes. The field key is `guest-author`. Setting it via the custom fields panel or 
 
 This was a bug in versions prior to 1.5 where the cached author name would persist for up to 12 hours. Version 1.5 fixed this — the cache is now invalidated immediately whenever a post is saved or its meta is updated.
 
+== Future Updates ==
+
+The following features are planned for future versions.
+
+= Suite Menu =
+All MENJ suite plugins (Auto Justify Content, Cite, Endmark, Custom Guest Authors) will be grouped under a shared "MENJ Plugins" top-level admin menu instead of individual Settings entries.
+
+= Guest Author Byline Card =
+A shortcode `[guest_author_card]` and optional auto-append toggle to render a styled byline card beneath post content, showing guest author name(s) and an optional per-post bio (stored as a second meta field `guest-author-bio`). Bio field will be available in both the classic editor meta box and the Gutenberg sidebar panel.
+
+= Guest Author Byline Block =
+A dedicated Gutenberg block (`custom-guest-authors/byline`) that renders the byline card inline in the editor with live preview via `useEntityProp`. Depends on the Byline Card feature.
+
+= Per-Post Author Link Override =
+An optional `guest-author-url` meta field per post to set a custom destination link for the author name (e.g. the guest's personal site or social profile), instead of always suppressing the link.
+
+= REST API Autocomplete Endpoint =
+A `GET /wp-json/cga/v1/authors` endpoint returning recently used guest author names, powering an autocomplete suggestions field in the Gutenberg sidebar.
+
+= Meta Key Migration Tool =
+A one-click tool on the Debug tab to migrate post meta from an existing custom field key into `guest-author`, with a dry-run count before committing. Useful when transitioning from another plugin or an ACF field with a different key name.
+
+= RSS Feed Toggle =
+A toggle on the Display tab to control whether the guest author override applies inside RSS/Atom feeds independently from on-site display.
+
 == Changelog ==
+
+= 2.1.0 =
+* Changed: Settings page completely redesigned with a dark hero header (Endmark-style), underline tab navigation flush to the header, plain white card bodies with uppercase muted section labels (replacing gradient card headers), AJC-style toggle switch for schema suppression, AJC-style Save Settings button, and a MENJ footer link pointing to https://github.com/menj. Original colour palette retained throughout.
 
 = 2.0.9 =
 * Added: `CGA_NO_META` constant replaces the `'__cga_none__'` sentinel string literal that was repeated inline in three functions.

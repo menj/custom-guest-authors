@@ -40,8 +40,7 @@ add_action( 'init', static function () {
     }
 }, 9 );
 
-// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- cga_ is the plugin's registered prefix.
-function cga_register_post_meta() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
+function cga_register_post_meta() {
     register_post_meta( '', 'guest-author', array(
         'show_in_rest'      => true,
         'single'            => true,

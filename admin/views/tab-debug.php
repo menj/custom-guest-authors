@@ -225,7 +225,7 @@ $checks[] = array(
     <p><?php esc_html_e( 'Enter a post ID below to check whether the guest-author meta is saved and what the filter returns for it.', 'custom-guest-authors' ); ?></p>
 
     <?php
-    $manual_id = isset( $_GET['cga_test_id'] ) ? absint( $_GET['cga_test_id'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+    $manual_id = isset( $_GET['cga_test_id'] ) ? absint( $_GET['cga_test_id'] ) : 0;
     if ( $manual_id ) {
         $manual_post = get_post( $manual_id );
         if ( $manual_post ) {
@@ -262,7 +262,7 @@ $checks[] = array(
     <form method="get" action="">
         <?php
         // Preserve existing query args for the settings page URL
-        foreach ( $_GET as $key => $val ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        foreach ( $_GET as $key => $val ) {
             if ( $key !== 'cga_test_id' ) {
                 echo '<input type="hidden" name="' . esc_attr( $key ) . '" value="' . esc_attr( $val ) . '">';
             }

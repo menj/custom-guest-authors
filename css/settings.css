@@ -1,10 +1,10 @@
 /* ==========================================================================
    Custom Guest Authors — Settings Page
-   Colour palette: #1B3C53 (deep navy) · #2E6A8E (teal-blue) ·
-                   #4F7FA0 (steel blue) · #C8BAB0 (warm stone)
+   Palette: #1B3C53 (navy) · #2E6A8E (teal) · #4F7FA0 (steel) · #C8BAB0 (stone)
+   Design: Dark hero header · Underline tabs · Plain white cards · AJC toggles
    ========================================================================== */
 
-/* ── Custom properties ──────────────────────────────────────────────────── */
+/* ── Custom properties ───────────────────────────────────────────────────── */
 :root {
     --wpcp-primary:        #1B3C53;
     --wpcp-primary-hover:  #16303f;
@@ -24,7 +24,6 @@
     --wpcp-stone-mid:      #e0d8d3;
     --wpcp-stone-dark:     #a89d95;
 
-    --wpcp-success:        #2E6A8E;
     --wpcp-success-light:  #daeaf4;
     --wpcp-success-border: #a8cfe0;
 
@@ -39,118 +38,207 @@
     --wpcp-gray-800:       #1e293b;
     --wpcp-white:          #ffffff;
 
-    --wpcp-radius-sm:      6px;
-    --wpcp-radius:         10px;
-    --wpcp-radius-lg:      14px;
+    --wpcp-radius-sm:      5px;
+    --wpcp-radius:         9px;
+    --wpcp-radius-lg:      12px;
     --wpcp-shadow-sm:      0 1px 2px rgba(27,60,83,.07), 0 1px 3px rgba(27,60,83,.10);
-    --wpcp-shadow:         0 4px 6px -1px rgba(27,60,83,.10), 0 2px 4px -1px rgba(27,60,83,.06);
-    --wpcp-shadow-md:      0 10px 15px -3px rgba(27,60,83,.10), 0 4px 6px -2px rgba(27,60,83,.06);
-    --wpcp-shadow-focus:   0 0 0 3px rgba(46,106,142,.25);
-    --wpcp-transition:     all 0.18s ease;
+    --wpcp-shadow:         0 2px 8px rgba(27,60,83,.08), 0 1px 3px rgba(27,60,83,.06);
+    --wpcp-shadow-md:      0 8px 24px rgba(27,60,83,.10), 0 2px 6px rgba(27,60,83,.06);
+    --wpcp-shadow-focus:   0 0 0 3px rgba(46,106,142,.22);
+    --wpcp-transition:     all 0.16s ease;
+
+    /* Hero header */
+    --wpcp-hero-bg:        #111d27;
+    --wpcp-hero-border:    rgba(255,255,255,.07);
 }
 
-/* ── Page wrap ──────────────────────────────────────────────────────────── */
+/* ── Page wrap ───────────────────────────────────────────────────────────── */
 .cga-wrap {
     max-width: 860px;
-    margin-top: 0;
+    margin-top: 12px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, sans-serif;
 }
 
-/* ── Page header ────────────────────────────────────────────────────────── */
-.wpcp-page-header {
-    background: linear-gradient(135deg, var(--wpcp-primary) 0%, var(--wpcp-secondary) 100%);
-    border-radius: var(--wpcp-radius-lg);
-    padding: 28px 32px 24px;
-    margin-bottom: 0;
-    box-shadow: var(--wpcp-shadow-md);
+/* ── Hero header (Endmark-inspired) ─────────────────────────────────────── */
+.wpcp-hero {
+    background: var(--wpcp-hero-bg);
+    border-radius: var(--wpcp-radius-lg) var(--wpcp-radius-lg) 0 0;
+    padding: 26px 32px 0;
     position: relative;
     overflow: hidden;
 }
 
-.wpcp-page-header::after {
+/* Subtle texture overlay */
+.wpcp-hero::before {
     content: '';
     position: absolute;
-    top: -48px; right: -48px;
-    width: 200px; height: 200px;
-    border-radius: 50%;
-    background: rgba(255,255,255,.06);
-    pointer-events: none;
-}
-.wpcp-page-header::before {
-    content: '';
-    position: absolute;
-    bottom: -30px; left: 42%;
-    width: 130px; height: 130px;
-    border-radius: 50%;
-    background: rgba(255,255,255,.04);
+    inset: 0;
+    background:
+        radial-gradient(ellipse 60% 80% at 90% 20%, rgba(46,106,142,.18) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 60% at 10% 80%, rgba(27,60,83,.25) 0%, transparent 60%);
     pointer-events: none;
 }
 
-.wpcp-page-header-content {
+.wpcp-hero-inner {
     display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 8px;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+    padding-bottom: 20px;
 }
 
-.wpcp-page-title {
+.wpcp-hero-identity {
     display: flex;
     align-items: center;
     gap: 14px;
-    margin: 0;
-    font-size: 28px;
-    font-weight: 700;
-    color: #ffffff;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
 }
 
-.wpcp-page-title svg {
-    color: rgba(255,255,255,.85);
+.wpcp-hero-icon {
+    width: 42px;
+    height: 42px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,.80);
     flex-shrink: 0;
-    filter: drop-shadow(0 1px 2px rgba(0,0,0,.20));
+}
+
+.wpcp-hero-text {}
+
+.wpcp-hero-title {
+    margin: 0 0 4px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+}
+
+.wpcp-hero-tagline {
+    margin: 0;
+    font-size: 13px;
+    color: rgba(255,255,255,.48);
+    line-height: 1.5;
+}
+
+.wpcp-hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    padding-top: 2px;
 }
 
 .wpcp-version-badge {
     display: inline-flex;
     align-items: center;
-    padding: 4px 12px;
-    background: rgba(255,255,255,.15);
-    color: rgba(255,255,255,.92);
-    font-size: 12px;
+    padding: 4px 11px;
+    background: rgba(255,255,255,.08);
+    color: rgba(255,255,255,.60);
+    font-size: 11px;
     font-weight: 700;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.07em;
     text-transform: uppercase;
     border-radius: 20px;
-    border: 1px solid rgba(255,255,255,.25);
-    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255,255,255,.12);
 }
 
-.wpcp-page-description {
+/* ── Tab navigation — underline style, flush to hero ────────────────────── */
+.wpcp-tabs {
+    display: flex;
+    align-items: flex-end;
+    gap: 0;
+    padding: 0 32px;
+    background: var(--wpcp-hero-bg);
+    border-bottom: 1px solid rgba(255,255,255,.07);
+    position: relative;
+    z-index: 1;
     margin: 0;
-    color: rgba(255,255,255,.72);
-    font-size: 14px;
-    line-height: 1.6;
-    max-width: 580px;
+    border-radius: 0;
 }
 
-/* Stone accent divider below header */
-.wpcp-header-stone-bar {
-    height: 4px;
-    background: linear-gradient(to right, var(--wpcp-stone), var(--wpcp-stone-mid), transparent);
-    border-radius: 0 0 4px 4px;
-    margin-bottom: 24px;
-    opacity: 0.85;
+.wpcp-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 11px 16px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,255,255,.40);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.16s ease, border-color 0.16s ease;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    line-height: 1;
 }
 
-/* ── Success notice ─────────────────────────────────────────────────────── */
+.wpcp-tab:hover {
+    color: rgba(255,255,255,.75);
+    text-decoration: none;
+    border-bottom-color: rgba(255,255,255,.20);
+}
+
+.wpcp-tab.wpcp-tab-active {
+    color: var(--wpcp-white);
+    font-weight: 600;
+    border-bottom-color: var(--wpcp-secondary);
+    text-decoration: none;
+}
+
+.wpcp-tab.wpcp-tab-active svg {
+    color: var(--wpcp-secondary);
+}
+
+.wpcp-tab svg {
+    color: rgba(255,255,255,.30);
+    transition: color 0.16s ease;
+}
+
+.wpcp-tab:hover svg {
+    color: rgba(255,255,255,.60);
+}
+
+/* Debug tab — stone tint */
+.wpcp-tab-debug:not(.wpcp-tab-active) {
+    color: rgba(200,186,176,.40);
+}
+.wpcp-tab-debug:not(.wpcp-tab-active):hover {
+    color: rgba(200,186,176,.80);
+    border-bottom-color: rgba(200,186,176,.30);
+}
+.wpcp-tab-debug.wpcp-tab-active {
+    border-bottom-color: var(--wpcp-stone);
+    color: var(--wpcp-stone);
+}
+.wpcp-tab-debug.wpcp-tab-active svg {
+    color: var(--wpcp-stone);
+}
+
+/* Spacer between main tabs and debug tab */
+.wpcp-tabs-spacer {
+    flex: 1;
+}
+
+/* ── Page content area (below hero) ─────────────────────────────────────── */
+.wpcp-page-content {
+    padding-top: 24px;
+}
+
+/* ── Success notice ──────────────────────────────────────────────────────── */
 .cga-notice {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 13px 18px;
+    padding: 12px 18px;
     border-radius: var(--wpcp-radius-sm);
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
     margin-bottom: 20px;
     box-shadow: var(--wpcp-shadow-sm);
@@ -168,94 +256,43 @@
     color: var(--wpcp-secondary);
 }
 
-/* ── Tab navigation — filled pill style ─────────────────────────────────── */
-.wpcp-tabs {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-    padding: 6px;
-    background: var(--wpcp-gray-100);
-    border: 1px solid var(--wpcp-gray-200);
-    border-radius: var(--wpcp-radius);
-    margin-bottom: 24px;
-}
-
-.wpcp-tab {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 9px 16px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--wpcp-gray-500);
-    text-decoration: none;
-    border-radius: var(--wpcp-radius-sm);
-    transition: var(--wpcp-transition);
-    letter-spacing: 0.01em;
-    border: 1px solid transparent;
-    white-space: nowrap;
-}
-
-.wpcp-tab:hover {
-    color: var(--wpcp-primary);
-    background: var(--wpcp-white);
-    text-decoration: none;
-    border-color: var(--wpcp-gray-200);
-}
-
-.wpcp-tab.wpcp-tab-active {
-    background: var(--wpcp-primary);
-    color: var(--wpcp-white);
-    border-color: var(--wpcp-primary-hover);
-    box-shadow: var(--wpcp-shadow-sm);
-    font-weight: 700;
-}
-
-.wpcp-tab.wpcp-tab-active svg {
-    color: rgba(255,255,255,.85);
-}
-
-.wpcp-tab.wpcp-tab-active:hover {
-    background: var(--wpcp-secondary);
-    color: var(--wpcp-white);
-    border-color: var(--wpcp-primary);
-    text-decoration: none;
-}
-
-/* Debug tab — stone tint when inactive */
-.wpcp-tab-debug:not(.wpcp-tab-active) {
-    color: var(--wpcp-stone-dark);
-}
-.wpcp-tab-debug:not(.wpcp-tab-active):hover {
-    color: var(--wpcp-primary);
-    background: var(--wpcp-stone-light);
-    border-color: var(--wpcp-stone-mid);
-}
-.wpcp-tab-debug.wpcp-tab-active {
-    background: var(--wpcp-primary-dark);
-    border-color: var(--wpcp-primary);
-}
-
-/* ── Cards ──────────────────────────────────────────────────────────────── */
+/* ── Cards — plain white, no gradient headers ────────────────────────────── */
 .wpcp-card {
     background: var(--wpcp-white);
     border: 1px solid var(--wpcp-gray-200);
     border-radius: var(--wpcp-radius);
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     overflow: hidden;
     box-shadow: var(--wpcp-shadow);
-    transition: box-shadow 0.2s ease;
 }
 
-.wpcp-card:hover {
-    box-shadow: var(--wpcp-shadow-md);
+/* Section label inside card body (replaces gradient card header) */
+.wpcp-section-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--wpcp-gray-400);
+    margin-bottom: 16px;
 }
 
-/* Vivid navy-to-teal gradient card headers */
+.wpcp-card-body {
+    padding: 22px 24px;
+}
+
+/* Divider between stacked sections within a single card */
+.wpcp-card-divider {
+    height: 1px;
+    background: var(--wpcp-gray-100);
+    margin: 20px -24px;
+}
+
+/* ── Dark card headers — only used for Debug tab info/cache cards ────────── */
 .wpcp-card-header {
-    padding: 14px 20px;
-    background: linear-gradient(to right, var(--wpcp-primary) 0%, var(--wpcp-secondary) 100%);
-    border-bottom: none;
+    padding: 12px 20px;
+    background: var(--wpcp-gray-50);
+    border-bottom: 1px solid var(--wpcp-gray-100);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -263,38 +300,32 @@
 
 .wpcp-card-header h3 {
     margin: 0;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
-    color: var(--wpcp-white);
+    color: var(--wpcp-gray-500);
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     letter-spacing: 0.06em;
     text-transform: uppercase;
 }
 
 .wpcp-card-header h3 svg {
-    color: rgba(255,255,255,.80);
+    color: var(--wpcp-gray-400);
     flex-shrink: 0;
 }
 
-/* Darker variant for Debug tab cards */
 .wpcp-card-header--dark {
     background: linear-gradient(to right, var(--wpcp-primary-dark) 0%, var(--wpcp-primary) 100%);
+    border-bottom: none;
 }
 
-/* Icon badge inside coloured header */
-.wpcp-icon-badge {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    background: rgba(255,255,255,.15);
-    border: 1px solid rgba(255,255,255,.25);
-    border-radius: var(--wpcp-radius-sm);
-    color: rgba(255,255,255,.90);
-    flex-shrink: 0;
+.wpcp-card-header--dark h3 {
+    color: rgba(255,255,255,.75);
+}
+
+.wpcp-card-header--dark h3 svg {
+    color: rgba(255,255,255,.50);
 }
 
 .wpcp-card-header-actions {
@@ -304,40 +335,43 @@
     flex-shrink: 0;
 }
 
-.wpcp-card-body {
-    padding: 22px;
-}
-
-/* ── Field rows ─────────────────────────────────────────────────────────── */
+/* ── Field rows ──────────────────────────────────────────────────────────── */
 .wpcp-field-row { margin-bottom: 20px; }
 .wpcp-field-row:last-child { margin-bottom: 0; }
 
 .wpcp-field-label {
     display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--wpcp-gray-700);
+    margin-bottom: 6px;
+    line-height: 1.4;
+}
+
+.wpcp-field-sublabel {
+    display: block;
     font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: var(--wpcp-primary);
-    margin-bottom: 8px;
+    color: var(--wpcp-gray-400);
+    margin-bottom: 10px;
+    line-height: 1.5;
 }
 
 .wpcp-field-input {
     width: 100%;
     max-width: 400px;
-    padding: 9px 13px;
-    font-size: 14px;
+    padding: 9px 12px;
+    font-size: 13px;
     color: var(--wpcp-gray-800);
-    background: var(--wpcp-gray-50);
+    background: var(--wpcp-white);
     border: 1px solid var(--wpcp-gray-300);
     border-radius: var(--wpcp-radius-sm);
-    box-shadow: inset 0 1px 2px rgba(0,0,0,.04);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.03);
     transition: var(--wpcp-transition);
     box-sizing: border-box;
     font-family: inherit;
 }
 
-.wpcp-input-sm { max-width: 100px; }
+.wpcp-input-sm { max-width: 90px; }
 
 .wpcp-field-input:focus {
     outline: none;
@@ -349,24 +383,75 @@
 .wpcp-field-input::placeholder { color: var(--wpcp-gray-300); }
 
 .wpcp-help-text {
-    margin: 7px 0 0;
+    margin: 6px 0 0;
     font-size: 12px;
     color: var(--wpcp-gray-400);
     line-height: 1.6;
 }
 
-.wpcp-input-row {
+/* ── Toggle switches (AJC-style) ─────────────────────────────────────────── */
+.wpcp-toggle-row {
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 4px 0;
 }
 
-.wpcp-input-row-label {
-    font-size: 13px;
-    color: var(--wpcp-gray-500);
+.wpcp-toggle-info { flex: 1; }
+
+.wpcp-toggle-info .wpcp-field-label { margin-bottom: 2px; }
+
+.wpcp-toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 26px;
+    flex-shrink: 0;
 }
 
-/* ── Toggle switches ────────────────────────────────────────────────────── */
+.wpcp-toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+
+.wpcp-toggle-track {
+    position: absolute;
+    inset: 0;
+    background: var(--wpcp-gray-300);
+    border-radius: 13px;
+    transition: background 0.2s ease;
+    cursor: pointer;
+}
+
+.wpcp-toggle-track::after {
+    content: '';
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    width: 20px;
+    height: 20px;
+    background: var(--wpcp-white);
+    border-radius: 50%;
+    box-shadow: 0 1px 4px rgba(0,0,0,.20);
+    transition: transform 0.2s ease;
+}
+
+.wpcp-toggle-switch input:checked + .wpcp-toggle-track {
+    background: var(--wpcp-secondary);
+}
+
+.wpcp-toggle-switch input:checked + .wpcp-toggle-track::after {
+    transform: translateX(22px);
+}
+
+.wpcp-toggle-switch input:focus + .wpcp-toggle-track {
+    box-shadow: var(--wpcp-shadow-focus);
+}
+
+/* Legacy toggle (kept for backwards compat) */
 .wpcp-toggle {
     display: flex;
     align-items: flex-start;
@@ -377,43 +462,41 @@
 
 .wpcp-toggle-slider {
     position: relative;
-    width: 44px;
-    height: 24px;
+    width: 48px;
+    height: 26px;
     background: var(--wpcp-gray-300);
-    border-radius: 12px;
+    border-radius: 13px;
     flex-shrink: 0;
     transition: var(--wpcp-transition);
     margin-top: 1px;
+    cursor: pointer;
 }
 
 .wpcp-toggle-slider::after {
     content: '';
     position: absolute;
     left: 3px; top: 3px;
-    width: 18px; height: 18px;
+    width: 20px; height: 20px;
     background: var(--wpcp-white);
     border-radius: 50%;
-    box-shadow: 0 1px 3px rgba(0,0,0,.25);
+    box-shadow: 0 1px 4px rgba(0,0,0,.20);
     transition: var(--wpcp-transition);
 }
 
 .wpcp-toggle input { position: absolute; opacity: 0; width: 0; height: 0; }
-
 .wpcp-toggle input:checked + .wpcp-toggle-slider { background: var(--wpcp-secondary); }
-.wpcp-toggle input:checked + .wpcp-toggle-slider::after { transform: translateX(20px); }
+.wpcp-toggle input:checked + .wpcp-toggle-slider::after { transform: translateX(22px); }
 .wpcp-toggle input:focus + .wpcp-toggle-slider { box-shadow: var(--wpcp-shadow-focus); }
 
 .wpcp-toggle-text { flex: 1; }
-
 .wpcp-toggle-label {
     display: block;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     color: var(--wpcp-gray-700);
     line-height: 1.4;
     margin-bottom: 2px;
 }
-
 .wpcp-toggle-desc {
     display: block;
     font-size: 12px;
@@ -421,13 +504,13 @@
     line-height: 1.6;
 }
 
-/* ── Info box ───────────────────────────────────────────────────────────── */
+/* ── Info box ────────────────────────────────────────────────────────────── */
 .wpcp-info-box {
     background: var(--wpcp-primary-light);
     border: 1px solid var(--wpcp-primary-mid);
     border-left: 4px solid var(--wpcp-secondary);
     border-radius: var(--wpcp-radius-sm);
-    padding: 14px 18px;
+    padding: 13px 16px;
     font-size: 13px;
     color: var(--wpcp-primary);
     line-height: 1.7;
@@ -436,86 +519,80 @@
 .wpcp-info-box code {
     background: var(--wpcp-primary-mid);
     color: var(--wpcp-primary-dark);
-    padding: 2px 6px;
-    border-radius: 4px;
+    padding: 1px 6px;
+    border-radius: 3px;
     font-size: 12px;
     font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 }
 
-/* ── Preview output ─────────────────────────────────────────────────────── */
+/* ── Preview output ──────────────────────────────────────────────────────── */
 .wpcp-preview-label {
     display: block;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.07em;
     text-transform: uppercase;
-    color: var(--wpcp-accent);
-    margin-bottom: 7px;
+    color: var(--wpcp-gray-400);
+    margin-bottom: 6px;
 }
 
 .wpcp-preview-output {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
     color: var(--wpcp-primary);
-    padding: 13px 18px;
+    padding: 11px 16px;
     background: var(--wpcp-primary-light);
     border: 1px solid var(--wpcp-primary-mid);
-    border-left: 4px solid var(--wpcp-secondary);
+    border-left: 3px solid var(--wpcp-secondary);
     border-radius: var(--wpcp-radius-sm);
-    letter-spacing: 0.01em;
 }
 
-/* ── Submit button ──────────────────────────────────────────────────────── */
-.wpcp-submit-row { margin-top: 8px; }
+/* ── Submit button (AJC-style — solid, no uppercase) ─────────────────────── */
+.wpcp-submit-row { margin-top: 6px; }
 
 .wpcp-submit-row .button-primary {
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    background: var(--wpcp-primary);
-    border-color: var(--wpcp-primary-dark);
-    color: var(--wpcp-white);
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    padding: 9px 22px;
-    height: auto;
-    line-height: 1.4;
-    border-radius: var(--wpcp-radius-sm);
-    box-shadow: 0 2px 4px rgba(27,60,83,.25);
-    transition: var(--wpcp-transition);
-    text-shadow: none;
+    background: var(--wpcp-secondary) !important;
+    border-color: var(--wpcp-secondary-dark) !important;
+    color: var(--wpcp-white) !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+    padding: 9px 22px !important;
+    height: auto !important;
+    line-height: 1.4 !important;
+    border-radius: var(--wpcp-radius-sm) !important;
+    box-shadow: 0 1px 3px rgba(27,60,83,.20) !important;
+    transition: var(--wpcp-transition) !important;
+    text-shadow: none !important;
 }
 
 .wpcp-submit-row .button-primary:hover,
 .wpcp-submit-row .button-primary:focus {
-    background: var(--wpcp-secondary);
-    border-color: var(--wpcp-primary);
-    box-shadow: 0 4px 8px rgba(27,60,83,.28);
-    transform: translateY(-1px);
-    color: var(--wpcp-white);
+    background: var(--wpcp-primary) !important;
+    border-color: var(--wpcp-primary-dark) !important;
+    box-shadow: 0 3px 8px rgba(27,60,83,.25) !important;
+    color: var(--wpcp-white) !important;
 }
 
-.wpcp-submit-row .button-primary:active {
-    transform: translateY(0);
-    box-shadow: 0 1px 2px rgba(27,60,83,.20);
-}
-
-/* ── Checkbox grid ──────────────────────────────────────────────────────── */
+/* ── Checkbox grid ───────────────────────────────────────────────────────── */
 .wpcp-checkbox-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 8px;
 }
 
 .wpcp-checkbox-card {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 11px 14px;
+    gap: 9px;
+    padding: 10px 13px;
     background: var(--wpcp-gray-50);
     border: 1px solid var(--wpcp-gray-200);
-    border-radius: var(--wpcp-radius);
+    border-radius: var(--wpcp-radius-sm);
     cursor: pointer;
     transition: var(--wpcp-transition);
 }
@@ -533,7 +610,7 @@
 .wpcp-checkbox-card input { position: absolute; opacity: 0; width: 0; height: 0; }
 
 .wpcp-checkbox-indicator {
-    width: 18px; height: 18px;
+    width: 17px; height: 17px;
     border: 2px solid var(--wpcp-gray-300);
     border-radius: 4px;
     transition: var(--wpcp-transition);
@@ -559,21 +636,21 @@
 .wpcp-checkbox-text {
     font-size: 13px;
     font-weight: 500;
-    color: var(--wpcp-primary);
+    color: var(--wpcp-gray-700);
 }
 
-/* ── Radio cards ────────────────────────────────────────────────────────── */
+/* ── Radio cards ─────────────────────────────────────────────────────────── */
 .wpcp-radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
 
 .wpcp-radio-card {
     flex: 1;
-    min-width: 140px;
+    min-width: 130px;
     display: flex;
     align-items: flex-start;
-    gap: 12px;
-    padding: 14px 16px;
+    gap: 11px;
+    padding: 13px 15px;
     background: var(--wpcp-gray-50);
-    border: 2px solid var(--wpcp-gray-200);
+    border: 1.5px solid var(--wpcp-gray-200);
     border-radius: var(--wpcp-radius);
     cursor: pointer;
     transition: var(--wpcp-transition);
@@ -592,38 +669,42 @@
 }
 
 .wpcp-radio-icon {
-    width: 36px; height: 36px;
+    width: 34px; height: 34px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: var(--wpcp-white);
     border: 1px solid var(--wpcp-gray-200);
-    border-radius: var(--wpcp-radius);
+    border-radius: var(--wpcp-radius-sm);
     color: var(--wpcp-accent);
     flex-shrink: 0;
 }
 
 .wpcp-radio-card.selected .wpcp-radio-icon {
     background: var(--wpcp-secondary);
-    border-color: var(--wpcp-primary);
+    border-color: var(--wpcp-secondary-dark);
     color: var(--wpcp-white);
 }
 
-.wpcp-radio-text { display: flex; flex-direction: column; gap: 3px; }
+.wpcp-radio-text { display: flex; flex-direction: column; gap: 2px; }
 
 .wpcp-radio-text strong {
     font-size: 13px;
     font-weight: 600;
+    color: var(--wpcp-gray-700);
+}
+
+.wpcp-radio-card.selected .wpcp-radio-text strong {
     color: var(--wpcp-primary);
 }
 
 .wpcp-radio-example {
     font-size: 12px;
-    color: var(--wpcp-accent);
+    color: var(--wpcp-gray-400);
     font-style: italic;
 }
 
-/* ── Debug table ────────────────────────────────────────────────────────── */
+/* ── Debug table ─────────────────────────────────────────────────────────── */
 .wpcp-debug-table {
     width: 100%;
     border-collapse: collapse;
@@ -632,23 +713,24 @@
 
 .wpcp-debug-table th,
 .wpcp-debug-table td {
-    padding: 11px 14px;
+    padding: 10px 14px;
     text-align: left;
-    border-bottom: 1px solid var(--wpcp-primary-light);
+    border-bottom: 1px solid var(--wpcp-gray-100);
     vertical-align: middle;
 }
 
 .wpcp-debug-table th {
     width: 220px;
     font-weight: 600;
-    color: var(--wpcp-primary);
+    color: var(--wpcp-gray-600);
     background: var(--wpcp-gray-50);
+    font-size: 12px;
 }
 
 .wpcp-debug-table td code {
     background: var(--wpcp-primary-light);
-    padding: 3px 8px;
-    border-radius: 4px;
+    padding: 2px 7px;
+    border-radius: 3px;
     font-size: 12px;
     color: var(--wpcp-primary-dark);
     font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
@@ -657,14 +739,14 @@
 .wpcp-debug-table tr:last-child th,
 .wpcp-debug-table tr:last-child td { border-bottom: none; }
 
-/* ── Status pills ───────────────────────────────────────────────────────── */
+/* ── Status pills ────────────────────────────────────────────────────────── */
 .wpcp-status-pill {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
-    padding: 4px 11px;
+    gap: 4px;
+    padding: 3px 10px;
     border-radius: 20px;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.02em;
 }
@@ -681,51 +763,40 @@
     border: 1px solid var(--wpcp-stone);
 }
 
-/* ── Action buttons (e.g. Clear Cache) ─────────────────────────────────── */
+/* ── Action button (Clear Cache) ─────────────────────────────────────────── */
 .wpcp-action-btn {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 5px 13px;
-    font-size: 12px;
+    padding: 4px 12px;
+    font-size: 11px;
     font-weight: 700;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     border-radius: var(--wpcp-radius-sm);
-    border: 1px solid rgba(255,255,255,.30);
+    border: 1px solid rgba(255,255,255,.25);
     cursor: pointer;
     text-decoration: none;
     transition: var(--wpcp-transition);
     line-height: 1.4;
-    background: rgba(255,255,255,.15);
-    color: rgba(255,255,255,.90);
+    background: rgba(255,255,255,.10);
+    color: rgba(255,255,255,.85);
     font-family: inherit;
 }
 
 .wpcp-action-btn:hover {
-    background: rgba(255,255,255,.25);
-    border-color: rgba(255,255,255,.50);
+    background: rgba(255,255,255,.20);
+    border-color: rgba(255,255,255,.45);
     color: var(--wpcp-white);
     text-decoration: none;
 }
 
-/* Stone rule separator */
-.wpcp-stone-rule {
-    height: 1px;
-    background: linear-gradient(to right, var(--wpcp-stone-mid), transparent);
-    margin: 4px 0 16px;
-    border: none;
-}
-
-/* ── Live diagnostics (debug tab) ─────────────────────────────────────────── */
-
-.cga-debug-results {
-    margin: 0 0 24px;
-}
+/* ── Live diagnostics (debug tab) ────────────────────────────────────────── */
+.cga-debug-results { margin: 0 0 20px; }
 
 .cga-debug-intro {
-    color: var(--wpcp-stone-mid);
-    font-size: 13px;
+    color: var(--wpcp-gray-400);
+    font-size: 12px;
     margin: 0 0 12px;
 }
 
@@ -738,7 +809,7 @@
 .cga-debug-table th,
 .cga-debug-table td {
     padding: 8px 12px;
-    border-bottom: 1px solid var(--wpcp-stone-light);
+    border-bottom: 1px solid var(--wpcp-gray-100);
     vertical-align: top;
     text-align: left;
 }
@@ -746,40 +817,34 @@
 .cga-debug-table th {
     width: 36%;
     font-weight: 500;
-    color: var(--wpcp-slate-dark);
+    color: var(--wpcp-gray-600);
+    font-size: 12px;
 }
 
-.cga-debug-table tr.cga-fail {
-    background: #fff8f8;
-}
-
-.cga-debug-table tr.cga-pass {
-    background: #f8fff8;
-}
-
-.cga-debug-table tr.cga-info {
-    background: #f8fbff;
-}
+.cga-debug-table tr.cga-fail { background: #fff8f8; }
+.cga-debug-table tr.cga-pass { background: #f8fff9; }
+.cga-debug-table tr.cga-info { background: var(--wpcp-gray-50); }
 
 .cga-badge {
     display: inline-block;
     padding: 2px 8px;
     border-radius: 3px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: .04em;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .05em;
     text-transform: uppercase;
 }
 
-.cga-badge-cga-pass  { background: #d4f5d4; color: #1a6b1a; }
-.cga-badge-cga-fail  { background: #fde8e8; color: #9b1c1c; }
-.cga-badge-cga-info  { background: #dbeafe; color: #1e40af; }
+.cga-badge-cga-pass { background: #d4f5d4; color: #1a6b1a; }
+.cga-badge-cga-fail { background: #fde8e8; color: #9b1c1c; }
+.cga-badge-cga-info { background: var(--wpcp-secondary-light); color: var(--wpcp-primary); }
 
 .cga-manual-result {
-    background: var(--wpcp-stone-light);
-    border-radius: 6px;
-    padding: 12px 16px;
-    margin: 12px 0;
+    background: var(--wpcp-gray-50);
+    border: 1px solid var(--wpcp-gray-200);
+    border-radius: var(--wpcp-radius-sm);
+    padding: 11px 14px;
+    margin: 10px 0;
     font-size: 13px;
 }
 
@@ -788,6 +853,23 @@
     list-style: disc;
 }
 
-.cga-manual-result li {
-    margin: 4px 0;
+.cga-manual-result li { margin: 3px 0; }
+
+/* ── Page footer ─────────────────────────────────────────────────────────── */
+.wpcp-page-footer {
+    text-align: center;
+    padding: 20px 0 8px;
+    font-size: 12px;
+    color: var(--wpcp-gray-400);
+}
+
+.wpcp-page-footer a {
+    color: var(--wpcp-secondary);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.wpcp-page-footer a:hover {
+    color: var(--wpcp-primary);
+    text-decoration: underline;
 }

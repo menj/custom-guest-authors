@@ -71,6 +71,5 @@ add_action( 'init', static function () {
     update_option( 'cga_cache_version', CGA_VERSION, false );
 
     global $wpdb;
-    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
     $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_cga_%' OR option_name LIKE '_transient_timeout_cga_%'" );
 } );

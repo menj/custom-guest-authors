@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @param string $post_type The post type being edited.
  */
-function cga_add_meta_box( $post_type ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
+function cga_add_meta_box( $post_type ) {
     // Resolve the correct function — wp_use_block_editor_for_post_type()
     // replaced use_block_editor_for_post_type() in WP 6.5.
     $block_editor_check = function_exists( 'wp_use_block_editor_for_post_type' )
@@ -61,7 +61,7 @@ add_action( 'add_meta_boxes', 'cga_add_meta_box' );
  *
  * @param WP_Post $post
  */
-function cga_render_meta_box( $post ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
+function cga_render_meta_box( $post ) {
     $value = get_post_meta( $post->ID, 'guest-author', true );
     wp_nonce_field( 'cga_save_meta', 'cga_nonce' );
     ?>
@@ -88,7 +88,7 @@ function cga_render_meta_box( $post ) { // phpcs:ignore WordPress.NamingConventi
  *
  * @param int $post_id
  */
-function cga_save_meta_box( $post_id ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
+function cga_save_meta_box( $post_id ) {
     // Verify nonce
     if ( ! isset( $_POST['cga_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['cga_nonce'] ?? '' ) ), 'cga_save_meta' ) ) {
         return;
@@ -125,7 +125,7 @@ add_action( 'save_post', 'cga_save_meta_box' );
  *
  * @param string $hook The current admin page hook.
  */
-function cga_enqueue_admin_assets( $hook ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
+function cga_enqueue_admin_assets( $hook ) {
     // Only load on post edit screens
     if ( ! in_array( $hook, array( 'post.php', 'post-new.php' ), true ) ) {
         return;
@@ -172,7 +172,7 @@ add_action( 'admin_enqueue_scripts', 'cga_enqueue_admin_assets' );
 /**
  * Enqueue Gutenberg sidebar plugin assets.
  */
-function cga_enqueue_block_editor_assets() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
+function cga_enqueue_block_editor_assets() {
     wp_enqueue_script(
         'cga-gutenberg-sidebar',
         CGA_PLUGIN_URL . 'js/gutenberg-sidebar.js',
@@ -197,7 +197,7 @@ add_action( 'enqueue_block_editor_assets', 'cga_enqueue_block_editor_assets' );
 /**
  * Register the plugin settings menu item under Settings.
  */
-function cga_add_settings_menu() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
+function cga_add_settings_menu() {
     add_options_page(
         __( 'Custom Guest Authors', 'custom-guest-authors' ),
         __( 'Guest Authors', 'custom-guest-authors' ),
@@ -215,7 +215,7 @@ add_action( 'admin_menu', 'cga_add_settings_menu' );
  * @param string $location The default redirect URL from options.php.
  * @return string Modified redirect URL with the tab parameter restored.
  */
-function cga_settings_redirect( $location ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
+function cga_settings_redirect( $location ) {
     if ( strpos( $location, 'settings-updated' ) === false ) {
         return $location;
     }
@@ -239,7 +239,7 @@ add_filter( 'wp_safe_redirect', 'cga_settings_redirect', 10 );
  * Register options so they are whitelisted for update_option() via the
  * Settings API. The form posts to options.php.
  */
-function cga_register_settings() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
+function cga_register_settings() {
     // General tab
     register_setting( 'cga_general', 'cga_default_guest_author', array(
         'type'              => 'string',
@@ -283,7 +283,7 @@ function cga_register_settings() { // phpcs:ignore WordPress.NamingConventions.P
  * @param mixed $input Raw input from the form.
  * @return array Sanitized array of valid post type slugs.
  */
-function cga_sanitize_post_types( $input ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
+function cga_sanitize_post_types( $input ) {
     $valid = array_keys( get_post_types( array( 'public' => true ) ) );
     if ( ! is_array( $input ) ) {
         return array();
@@ -302,7 +302,7 @@ function cga_sanitize_post_types( $input ) { // phpcs:ignore WordPress.NamingCon
  * @param mixed $input Raw value from the form.
  * @return int 1 or 0.
  */
-function cga_sanitize_checkbox( $input ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
+function cga_sanitize_checkbox( $input ) {
     return ( ! empty( $input ) && '0' !== $input ) ? 1 : 0;
 }
 add_action( 'admin_init', 'cga_register_settings' );
@@ -312,7 +312,7 @@ add_action( 'admin_init', 'cga_register_settings' );
  *
  * @param string $hook Current admin page hook.
  */
-function cga_enqueue_settings_assets( $hook ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
+function cga_enqueue_settings_assets( $hook ) {
     if ( 'settings_page_custom-guest-authors' !== $hook ) {
         return;
     }
@@ -343,7 +343,7 @@ add_action( 'admin_enqueue_scripts', 'cga_enqueue_settings_assets' );
 /**
  * Render the settings page by loading the view template.
  */
-function cga_render_settings_page() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
+function cga_render_settings_page() {
     if ( ! current_user_can( 'manage_options' ) ) {
         return;
     }

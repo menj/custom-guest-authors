@@ -5,130 +5,160 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## Unreleased
+## Unreleased — Future Updates
 
-### Suite Integration
-```yaml
-description: >
-  Group all suite plugins (Auto Justify Content, Cite, Endmark, Custom Guest
-  Authors) under a shared top-level admin menu rather than individual entries
-  under Settings, and coordinate with Endmark to avoid typographic conflicts
-  between the end mark and a guest author byline card.
-
-implementation:
-  shared_admin_menu:
-    top_level_slug: menj-plugin-suite
-    top_level_label: "MENJ Plugins"
-    top_level_icon: dashicons-admin-plugins
-    description: >
-      Each suite plugin registers its settings as a submenu page under the
-      shared top-level menu. Only one plugin should register the top-level
-      menu; others attach as submenus. Use a shared constant
-      (e.g. MENJ_SUITE_MENU_REGISTERED) to prevent duplicate entries.
-    migration: >
-      The existing Settings > Guest Authors entry is replaced by
-      MENJ Plugins > Guest Authors. A Settings redirect shim should be
-      added for one version to avoid broken bookmarks for existing users.
-
-  endmark_coordination:
-    description: >
-      When Endmark is active and the Guest Author Byline Card is appended
-      after post content, the end mark may render inside or before the card
-      rather than at the end of the article body. Apply the byline card
-      after Endmark has already processed the_content to ensure correct
-      render order.
-    detection: function_exists() check on a known Endmark function or constant
-
-files_affected:
-  - custom-guest-authors.php
-  - readme.txt
-  - changelog.md
-```
+The following features are planned for future versions. They are documented
+here in full implementation detail to preserve design decisions and facilitate
+development continuity.
 
 ---
 
-### Guest Author Byline Card
-```yaml
-description: >
-  A shortcode and optional auto-append setting to render a styled byline
-  card beneath post content displaying the guest author name(s) and an
-  optional per-post bio line. Bio text is stored as a second per-post
-  custom field; no full author profile system is introduced.
+### 1 — MENJ Plugin Suite Top-Level Menu
 
-implementation:
-  new_meta_field: guest-author-bio
-  field_label: Guest Author Bio
-  field_type: textarea
-  storage: post meta via update_post_meta()
+**Priority:** High — affects all suite plugins  
+**Scope:** `custom-guest-authors.php`, `readme.txt`, `changelog.md`
 
-  shortcode:
-    tag: '[guest_author_card]'
-    output: >
-      Renders a styled byline card using the guest-author and
-      guest-author-bio meta fields for the current post. Falls back
-      gracefully when either field is absent.
+Group all suite plugins (Auto Justify Content, Cite, Endmark, Custom Guest
+Authors) under a shared `MENJ Plugins` top-level admin menu rather than
+four separate entries under Settings.
 
-  auto_append:
-    option_key: cga_auto_append_card
-    settings_tab: Display
-    description: >
-      Optional toggle on the Display tab to automatically append the byline
-      card after post content via the_content filter, without requiring
-      manual shortcode placement.
-
-editor_ui:
-  classic: >
-    Extend the existing classic editor meta box to include a textarea field
-    for the guest author bio beneath the existing name input.
-  gutenberg: >
-    Extend the existing Gutenberg sidebar panel to include a TextareaControl
-    for the bio field.
-
-new_files:
-  - css/byline-card.css
-
-files_affected:
-  - custom-guest-authors.php
-  - css/meta-box.css
-  - css/gutenberg-sidebar.css
-  - js/gutenberg-sidebar.js
-  - readme.txt
-  - changelog.md
-```
+**Implementation notes:**
+- Top-level slug: `menj-plugin-suite` — dashicon: `dashicons-admin-plugins`
+- Only one plugin should register the top-level entry; others attach as
+  submenus. Use a shared constant (e.g. `MENJ_SUITE_MENU_REGISTERED`) to
+  prevent duplicate entries across plugin load order.
+- Existing `Settings > Guest Authors` entry replaced by `MENJ Plugins > Guest
+  Authors`. A one-version redirect shim from the old URL prevents broken
+  bookmarks for existing users.
+- Coordinate with Endmark: when both are active, Endmark's byline card and
+  CGA's byline card must not both append to `the_content`. Use
+  `function_exists()` detection to gate the append.
 
 ---
 
-### Guest Author Byline Block
-```yaml
-depends_on: Guest Author Byline Card
+### 2 — Guest Author Byline Card
 
-description: >
-  A dedicated Gutenberg block that renders the guest author byline card
-  inline within the block editor, complementing the shortcode. Server-side
-  rendered with live preview in the editor canvas via useEntityProp.
+**Priority:** Medium  
+**Scope:** `custom-guest-authors.php`, `js/gutenberg-sidebar.js`,
+`css/meta-box.css`, `css/gutenberg-sidebar.css`, new `css/byline-card.css`
 
-implementation:
-  block_name: custom-guest-authors/byline
-  block_category: text
-  attributes:
-    - post_id: (auto-resolved from current post context)
-    - show_bio: boolean, default true
-  render: >
-    register_block_type() with a render_callback. Outputs the same HTML
-    as the byline card shortcode for consistent front-end output.
-  editor_preview: >
-    Uses useEntityProp to read guest-author and guest-author-bio meta
-    live in the editor without requiring a page reload.
+A shortcode `[guest_author_card]` and optional auto-append toggle to render
+a styled byline card beneath post content, displaying guest author name(s)
+and an optional per-post bio line.
 
-new_files:
-  - js/byline-block.js
-  - css/byline-block.css
+**Implementation notes:**
+- New meta key: `guest-author-bio` (textarea, registered via `register_post_meta`)
+- Classic editor meta box: add a `<textarea>` for the bio below the existing name input
+- Gutenberg sidebar: add a `TextareaControl` for the bio field
+- Auto-append toggle on the Display tab (`cga_auto_append_card` option)
+- Byline card output via `the_content` filter at priority 20
+- New file: `css/byline-card.css` — card styling consistent with suite palette
 
-files_affected:
-  - custom-guest-authors.php
-  - readme.txt
-  - changelog.md
-```
+---
+
+### 3 — Guest Author Byline Block
+
+**Priority:** Medium (depends on Byline Card)  
+**Scope:** `custom-guest-authors.php`, new `js/byline-block.js`,
+new `css/byline-block.css`
+
+A dedicated Gutenberg block (`custom-guest-authors/byline`) that renders
+the byline card inline in the editor with live preview.
+
+**Implementation notes:**
+- `register_block_type()` with a PHP `render_callback` — same HTML output as
+  the shortcode for front-end consistency
+- Block category: `text`
+- Editor preview via `useEntityProp` reading `guest-author` and
+  `guest-author-bio` — no page reload required
+- Attribute `show_bio` (boolean, default `true`)
+
+---
+
+### 4 — Per-Post Author Link Override
+
+**Priority:** Low  
+**Scope:** `includes/front-end.php`, `js/gutenberg-sidebar.js`,
+`includes/post-meta.php`
+
+Instead of always suppressing the author archive URL, allow an optional
+`guest-author-url` meta field per post to set a custom destination link
+(e.g. the guest's personal site or social profile).
+
+**Implementation notes:**
+- New meta key: `guest-author-url` — registered via `register_post_meta`,
+  `show_in_rest: true`, sanitised with `esc_url_raw`
+- Gutenberg sidebar: add a `TextControl` for the URL below the name field
+- `custom_guest_authors_suppress_url()` updated: return custom URL when set,
+  empty string when not set (suppress), original when no guest author at all
+- Classic editor meta box: add a URL input field
+
+---
+
+### 5 — REST API Autocomplete Endpoint
+
+**Priority:** Low  
+**Scope:** `custom-guest-authors.php`
+
+A `GET /wp-json/cga/v1/authors` endpoint returning a deduplicated list of
+recently used guest author names across all posts, powering an autocomplete
+suggestions field in the editor sidebar.
+
+**Implementation notes:**
+- `register_rest_route()` on `rest_api_init`
+- Query: `get_posts()` with `meta_key = guest-author`, `posts_per_page = 200`,
+  then explode and deduplicate names
+- Route permission: `current_user_can( 'edit_posts' )`
+- Gutenberg sidebar: add a `ComboboxControl` or custom suggestion dropdown
+
+---
+
+### 6 — Meta Key Migration Tool
+
+**Priority:** Low  
+**Scope:** `admin/views/tab-debug.php`
+
+A one-click migration tool on the Debug tab that scans `wp_postmeta` for a
+user-specified meta key and copies its values into `guest-author`, reporting
+how many posts were migrated. Useful for sites transitioning from another
+plugin or a differently-named ACF field.
+
+**Implementation notes:**
+- Form on Debug tab: text input for source meta key + "Migrate" button
+- Nonce-protected POST handler, direct `$wpdb` query for performance
+- Dry-run mode: show count of affected posts before committing
+- Invalidates all `cga_*` transients after migration
+
+---
+
+### 7 — RSS Feed Toggle
+
+**Priority:** Low  
+**Scope:** `includes/front-end.php`, `admin/admin.php`
+
+A dedicated toggle to control whether the guest author override applies
+inside RSS/Atom feeds. Some publishers want to keep the WordPress username
+for feed reader attribution while overriding the name on-site.
+
+**Implementation notes:**
+- New option: `cga_apply_in_feeds` (boolean, default `true` — preserve current behaviour)
+- Display tab setting, positioned after the "Show Override On" radio group
+- `is_feed()` check added to both `custom_guest_authors_name()` and
+  `custom_guest_authors_name_meta()` when the option is disabled
+
+---
+
+## [2.1.0] — 2026-02-22
+
+### Changed
+- **Settings page redesigned** — inspired by the Endmark and Auto Justify Content plugin UIs from the same suite. The page now uses a cohesive design language consistent across all MENJ plugins.
+  - **Dark hero header** (Endmark-style): replaces the gradient page header with a full-width dark band containing the plugin name, tagline, and version badge. Colour palette (`#1B3C53` navy, `#2E6A8E` teal, `#C8BAB0` stone) is unchanged.
+  - **Underline tab navigation** (Endmark-style): pill-style filled tabs replaced with an underline indicator style. Tabs sit flush to the bottom edge of the hero header with no gap between header and content area. The Debug tab is separated to the far right with a spacer.
+  - **Plain white card bodies with uppercase muted section labels** (Endmark-style): gradient card headers removed from all cards. Each settings group is now introduced by a small `letter-spacing: 0.10em` uppercase label in muted grey — the same convention Endmark uses for `ENDMARK TYPE`. Colour and emphasis are reserved for interactive elements only.
+  - **AJC-style toggle switches**: the schema suppression checkbox is now rendered as a full-width toggle row (`wpcp-toggle-row`) with label and description on the left and the switch on the right, matching the Auto Justify Content layout exactly.
+  - **AJC-style Save Settings button**: removed `text-transform: uppercase` and letter-spacing; button is now a solid filled rectangle with natural sentence-case text.
+  - **MENJ footer link**: `Developed by MENJ` footer added at the bottom of every tab, linking to `https://github.com/menj`.
+  - **Field layout refinement**: field labels and sublabels are now in separate elements (`wpcp-field-label` + `wpcp-field-sublabel`) for cleaner vertical rhythm.
 
 ---
 

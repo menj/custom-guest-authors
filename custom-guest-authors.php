@@ -2,7 +2,7 @@
 /*
 Plugin Name: Custom Guest Authors
 Description: Replace the default post author name with custom guest author names using a custom field. Supports multiple authors.
-Version: 2.0.9
+Version: 2.1.0
 Author: MENJ
 Author URI: https://github.com/menj
 License: GPLv2 or later
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'CGA_VERSION',    '2.0.9' );
+define( 'CGA_VERSION',    '2.1.0' );
 define( 'CGA_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'CGA_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 

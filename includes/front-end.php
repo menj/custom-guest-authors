@@ -34,7 +34,7 @@ define( 'CGA_NO_META', '__cga_none__' );
  * @param int $post_id
  * @return string Raw meta value, or '' if none.
  */
-function cga_get_authors( $post_id ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
+function cga_get_authors( $post_id ) {
     $transient_key = 'cga_' . $post_id;
     $cached        = get_transient( $transient_key );
 
@@ -57,7 +57,7 @@ function cga_get_authors( $post_id ) { // phpcs:ignore WordPress.NamingConventio
  * @param string $raw Comma-separated author names from post meta.
  * @return string Formatted author name string ready to output.
  */
-function cga_format_authors( $raw ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
+function cga_format_authors( $raw ) {
     $author_array = array_values(
         array_filter(
             array_map( 'sanitize_text_field', array_map( 'trim', explode( ',', $raw ) ) )
@@ -289,7 +289,7 @@ add_filter( 'the_author_posts_link', 'custom_guest_authors_strip_link', 10, 1 );
  * @param array $data The schema graph array.
  * @return array Modified schema.
  */
-function cga_suppress_yoast_author( $data ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
+function cga_suppress_yoast_author( $data ) {
     if ( ! get_option( 'cga_suppress_schema', false ) ) {
         return $data;
     }
@@ -311,7 +311,7 @@ add_filter( 'wpseo_schema_graph', 'cga_suppress_yoast_author' );
  * @param array $data The schema entity array.
  * @return array Modified schema.
  */
-function cga_suppress_rankmath_author( $data ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
+function cga_suppress_rankmath_author( $data ) {
     if ( ! get_option( 'cga_suppress_schema', false ) ) {
         return $data;
     }
